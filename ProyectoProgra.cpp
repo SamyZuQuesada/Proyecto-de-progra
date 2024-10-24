@@ -3,8 +3,7 @@
 #include<vector>
 int main()
 {
-	Clinica* clinica{};
-
-	clinica->menuClinica();
+	Clinica clinica;
+	clinica.menuClinica();
 
 }
