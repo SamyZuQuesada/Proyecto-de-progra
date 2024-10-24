@@ -10,20 +10,20 @@ class Clinica
 
 private:
 
-	string nombreClinia;
+	string nombreClinica;
 	string direccionClinica;
 	string especialidades;
 	string correoClinica;
-	int telefonoClinica;
+	string telefonoClinica;
 
 public:
 	Clinica()
 	{
-		this->nombreClinia = "Clinica San Quantum Code";
+		this->nombreClinica = "Clinica San Quantum Code";
 		this->direccionClinica = "Nicoya, Guanacaste";
 		this->especialidades = "Medicina General, Odontologia, Nutricion, Pediadria, Psicologia";
 		this->correoClinica = "santaquantumcode@hotmail.com";
-		this->telefonoClinica = 26855314;
+		this->telefonoClinica = 2685-5314;
 	}
 
 	void menuClinica()
@@ -118,7 +118,7 @@ public:
 					cout << "Estamos ubicados en: Nicoya, Guanacaste " << endl;
 					cout << "Nuestro correo es: sanquantumcode@hotmail.com" << endl;
 					cout << "Recordar que brindamos nuestros servicios de: Medicina General, Odontologia, Nutricion, Pediadria, Psicologia" << endl;
-					cout << "Nuestro numero telefonico es: 26855314" << endl;
+					cout << "Nuestro numero telefonico es: 2685-5314" << endl;
 					cout << "¡Clinica San Quantum Code le agradace por confiar en nosotros! " << endl;
 					cout << "!LO ESPERAMOS PRONTO!" << endl;
 					system("pause");
