@@ -14,16 +14,16 @@ private:
 	string direccionClinica;
 	string especialidades;
 	string correoClinica;
-	int telefonoClinica;
+	string telefonoClinica;
 
 public:
-	Clinica(string _nombreClinia, string _direccionClinica, string _especialidades, string _correoClinica, int _telefono)
+	Clinica()
 	{
 		this->nombreClinia = "Clinica San Quantum Code";
 		this->direccionClinica = "Nicoya, Guanacaste";
 		this->especialidades = "Medicina General, Odontologia, Nutricion, Pediadria, Psicologia";
 		this->correoClinica = "santaquantumcode@hotmail.com";
-		this->telefonoClinica = 26855314;
+		this->telefonoClinica = 2685-5314;
 	}
 
 	void menuClinica()
@@ -37,6 +37,22 @@ public:
 
 		do
 		{
+			cout << "================================================================" << endl;
+			cout << "=====================  PROGRAMADORES  ==========================" << endl;
+			cout << "================================================================" << endl;
+			cout << "================== CAMILA MORA CASTILLO ========================" << endl;
+			cout << "================== DANIEL ELIZONDO GUTIERREZ ===================" << endl;
+			cout << "================= SAMIRA ZUNIGA QUESADA ========================" << endl;
+			cout << "================== NAEL BARRANTES DIAZ =========================" << endl;
+			cout << "================== LIZZY NOGUERA MEDINA ========================" << endl;
+			cout << "================================================================" << endl;
+
+			cout << "Presione enter para poner continuar..." << endl;
+			cin.get();
+			system("cls");
+
+
+
 			system("cls");
 			cout << "================================================================" << endl;
 			cout << "=================BIENVENIDOS/BIENVENIDAS========================" << endl;
@@ -128,6 +144,7 @@ public:
 			{
 				cout << "==¡OPCION INCORRECTA!==" << endl;
 				cout << "VUELVA A INTENTAR CON OTRA OPCION..." << endl;
+				break;
 			}
 
 			}
