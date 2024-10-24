@@ -85,38 +85,43 @@ public:
 			case 5:
 			{
 				bool salir = false;
-				cout << "Desea salir de nuestro menu?" << endl;
-				cout << "1-SI" << endl;
-				cout << "0-NO" << endl;
-				cin >> salir;
-				switch (salir)
+				int opcion;
+				while (!salir)
 				{
-				case 1:
-				{
-					salir = true;
-					cout << "¡Gracias por usar nuestra clinica!" << endl;
-					cout << "Estamos ubicados en: Nicoya, Guanacaste " << endl;
-					cout << "Nuestro correo es: santaquantumcode@hotmail.com" << endl;
-					cout << "Recordar que brindamos nuestros servicios de: Medicina General, Odontologia, Nutricion, Pediadria, Psicologia" << endl;
-					cout << "Nuestro numero telefonico es: 26855314" << endl;
-					cout << "¡Clinica San Quantum Code le agradace por confiar en nosotros! " << endl;
-					cout << "!LO ESPERAMOS PRONTO!" << endl;
-					system("pause");
-					break;
-				}
-				case 2:
-				{
-					salir = false;
-					cout << "¡GRACIAS POR CONTINUAR EN NUESTRO MENU!" << endl;
-					system("pause");
-					break;
-				}
-				default:
-				{
-					cout << "OPCION INVALIDA" << endl;
-					system("pause");
-					break;
-				}
+					cout << "Desea salir de nuestro menu?" << endl;
+					cout << "1-SI" << endl;
+					cout << "0-NO" << endl;
+					cin >> opcion;
+
+					switch (opcion)
+					{
+					case 1:
+					{
+						salir = true;
+						cout << "¡Gracias por usar nuestra clinica!" << endl;
+						cout << "Estamos ubicados en: Nicoya, Guanacaste " << endl;
+						cout << "Nuestro correo es: santaquantumcode@hotmail.com" << endl;
+						cout << "Recordar que brindamos nuestros servicios de: Medicina General, Odontologia, Nutricion, Pediadria, Psicologia" << endl;
+						cout << "Nuestro numero telefonico es: 26855314" << endl;
+						cout << "¡Clinica San Quantum Code le agradace por confiar en nosotros! " << endl;
+						cout << "!LO ESPERAMOS PRONTO!" << endl;
+						system("pause");
+						break;
+					}
+					case 0:
+					{
+						salir = false;
+						cout << "¡GRACIAS POR CONTINUAR EN NUESTRO MENU!" << endl;
+						system("pause");
+						break;
+					}
+					default:
+					{
+						cout << "OPCION INVALIDA" << endl;
+						system("pause");
+						break;
+					}
+					}
 				}
 			}
 			default:
