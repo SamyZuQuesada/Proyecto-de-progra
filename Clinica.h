@@ -118,7 +118,7 @@ public:
 						cout << "Estamos ubicados en: Nicoya, Guanacaste " << endl;
 						cout << "Nuestro correo es: sanaquantumcode@hotmail.com" << endl;
 						cout << "Recordar que brindamos nuestros servicios de: Medicina General, Odontologia, Nutricion, Pediadria, Psicologia" << endl;
-						cout << "Nuestro numero telefonico es: 26855314" << endl;
+						cout << "Nuestro numero telefonico es: 2685-5314" << endl;
 						cout << "¡Clinica San Quantum Code le agradace por confiar en nosotros! " << endl;
 						cout << "!LO ESPERAMOS PRONTO!" << endl;
 						system("pause");
