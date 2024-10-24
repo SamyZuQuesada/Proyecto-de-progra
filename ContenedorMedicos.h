@@ -18,7 +18,7 @@ public:
 		cout << "Ingrese el codigo del medico: ";
 		cin >> codigo;
 
-		if (codigo < 0 || codigo > 9999) //se valida que el codigo sea un numero positivo de hasta 4 digitos y no sea negativo
+		if (codigo < 0 || codigo > 2222) //se valida que el codigo sea un numero positivo de hasta 4 digitos y no sea negativo
 		{
 			cout << "Codigo no valido, ingrese un numero positivo de hasta 4 digitos " << endl;
 			return;
@@ -79,7 +79,7 @@ public:
 
 		cout << "Ingrese su numero de codigo" << endl;
 		cin >> codigo;
-		if (codigo < 0 || codigo > 9999999999) {
+		if (codigo < 0 || codigo > 2222222222) {
 			cout << "Codigo no valido, ingrese un numero positivo de hasta 10 digitos " << endl;
 			return;
 		}
