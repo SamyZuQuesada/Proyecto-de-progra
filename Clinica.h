@@ -37,7 +37,7 @@ public:
 
 		do
 		{
-
+			system("cls");
 			cout << "================================================================" << endl;
 			cout << "=================BIENVENIDOS/BIENVENIDAS========================" << endl;
 			cout << "=================CLINICA SAN QUANTUM CODE=======================" << endl;
