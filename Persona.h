@@ -25,7 +25,7 @@ public:
 		this->nombre = _nombre;
 	}
 
-	string getNombre()
+	string getNombre() const
 	{
 		return this->nombre;
 	}
@@ -34,7 +34,7 @@ public:
 	{
 		this->telefono = _telefono;
 	}
-	string getTelefono()
+	string getTelefono() const
 	{
 		return this->telefono;
 	}
@@ -42,14 +42,12 @@ public:
 	{
 		this->correo = _correo;
 	}
-	string getCorreo()
+	string getCorreo() const
 	{
 		return this->correo;
 	}
 
-	//Metodo que muestra datos de la persona utilizando polimosrfismo
-
-	virtual void getMostrarDatos()
+	virtual void getMostrarDatos() const 
 	{
 		cout << "Nombre: " << this->nombre << endl;
 		cout << "Telefono: " << this->telefono << endl;
