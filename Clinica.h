@@ -47,10 +47,11 @@ public:
 			cout << "================== LIZZY NOGUERA MEDINA ========================" << endl;
 			cout << "================================================================" << endl;
 
+			// Pausar para que el usuario presione Enter
 			cout << "Presione enter para poner continuar..." << endl;
-			cin.get();
+			cin.get(); // Espera que el usuario presione Enter
 			system("cls");
-
+			
 
 
 			system("cls");
