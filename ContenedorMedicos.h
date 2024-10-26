@@ -13,6 +13,9 @@ public:
 		int codigo;
 		string nombre, telefono, correo;
 		bool disponibilidad;
+		
+		//llamar archivo txt para que antes de registrar un nuevo medico, carguen los datos del archivo ya anteriormente registrados y guardados
+                recuperarArchivo();
 
 
 		cout << "Ingrese el codigo del medico: ";
