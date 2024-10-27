@@ -1,3 +1,4 @@
+
 #pragma once
 #include "Librerias.h"
 #include "Persona.h"
@@ -9,11 +10,11 @@ private:
 	bool disponibilidad;
 
 public:
-	Medicos(int _codigo, string _nombre, string _telefono, string _correo, bool _disponibilidad) : Persona(_nombre, _correo, _telefono )
+	Medicos(string _nombre, int _cedula, int _telefono, string _correo, int _codigo, bool _disponibilidad) : Persona(_nombre, _cedula, _telefono, _correo)
 	{
 		this->codigo = _codigo;
-	    this->disponibilidad = _disponibilidad;
-    }  
+		this->disponibilidad = _disponibilidad;
+	}
 
 	//metodos setter y getter
 
@@ -21,21 +22,21 @@ public:
 	{
 		this->codigo = _codigo;
 	}
-	
+
 	int getCodigo()const
 	{
 		return this->codigo;
 	}
-	
+
 	void setDisponibilidad(bool _disponibilidad)
 	{
 		this->disponibilidad = _disponibilidad;
 	}
-	
+
 	bool getDisponibilidad()const
 	{
 		return this->disponibilidad;
-		
+
 	}
 
 	//Metodo que muestra datos del medico utilizando polimosrfismo
