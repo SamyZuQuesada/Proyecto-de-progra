@@ -33,7 +33,7 @@ public:
 		return this->fechaRegistro;
 	}
 
-	virtual void getMostrarDatos() const 
+	void getMostrarDatos() const override
 	{
 		cout << "................Datos del paciente............" << endl;
 		Persona::getMostrarDatos();
