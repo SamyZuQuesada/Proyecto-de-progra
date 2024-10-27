@@ -1,38 +1,25 @@
-#pragma once
-#include "Librerias.h"
-#include "Persona.h"
+#include"Librerias.h"
+#include"Persona.h"
 
 class Pacientes : public Persona
 {
 private:
-	int cedula;
 	string apellido;
 	string fechaRegistro;
 
 public:
-	Pacientes(string _nombre, string _telefono, string _correo, string _apellido, int _cedula, string _fechaRegistro) : Persona(_nombre, _correo, _telefono)
+	Pacientes(string _nombre, string _apellido, int _cedula, int _telefono, string _correo, string _fechaRegistro) : Persona(_nombre, _cedula, _telefono, _correo)
 	{
-		this->cedula = _cedula;
 		this->apellido = _apellido;
 		this->fechaRegistro = _fechaRegistro;
-	}
-
-	//metodos setter y getter
-
-	void setCedula(int _cedula)
-	{
-		this->cedula = _cedula;
-	}
-	int getCedula()
-	{
-		return this->cedula;
 	}
 
 	void setApellido(string _apellido)
 	{
 		this->apellido = _apellido;
 	}
-	string getApellido()
+	
+	string getApellido() const
 	{
 		return this->apellido;
 	}
@@ -41,19 +28,19 @@ public:
 	{
 		this->fechaRegistro = _fechaRegistro;
 	}
-	string getFechaRegistro()
+	string getFechaRegistro() const
 	{
 		return this->fechaRegistro;
 	}
 
-	//Metodo que muestra datos del paciente utilizando polimosrfismo
-	void getMostrarDatos() override
+
+	void getMostrarDatos() const override
 	{
 		cout << "................Datos del paciente............" << endl;
 		Persona::getMostrarDatos();
 		cout << "Apellido: " << getApellido() << endl;
-		cout << "Cedula: " << getCedula() << endl;
-		cout << "..............................................." << endl;
+		cout << "Fecha de registro: " << getFechaRegistro() << endl;
+		cout << "............................................." << endl;
 	}
-	
-	};
+
+};
