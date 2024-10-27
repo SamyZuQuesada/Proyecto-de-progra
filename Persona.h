@@ -7,11 +7,11 @@ class Persona
 protected:
 
 	string nombre;
-	int telefono;
+	string telefono;
 	string correo;
 
 public:
-	Persona(string _nombre, int _telefono, string _correo)
+	Persona(string _nombre, string _telefono, string _correo)
 	{
 		this->nombre = _nombre;
 		this->telefono = _telefono;
@@ -31,11 +31,11 @@ public:
 		return this->nombre;
 	}
 
-	void setTelefono(int _telefono)
+	void setTelefono(string _telefono)
 	{
 		this->telefono = _telefono;
 	}
-	int getTelefono() const
+	string getTelefono() const
 	{
 		return this->telefono;
 	}
