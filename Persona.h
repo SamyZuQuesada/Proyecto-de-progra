@@ -1,16 +1,17 @@
+
 #pragma once
 #include "Librerias.h"
 
 class Persona
 {
 protected:
-	
+
 	string nombre;
-	string telefono;
+	int telefono;
 	string correo;
-	
+
 public:
-	Persona(string _nombre, string _telefono, string _correo)
+	Persona(string _nombre, int _telefono, string _correo)
 	{
 		this->nombre = _nombre;
 		this->telefono = _telefono;
@@ -19,7 +20,7 @@ public:
 
 
 	//metodos setter y getter
-	
+
 	void setNombre(string _nombre)
 	{
 		this->nombre = _nombre;
@@ -30,11 +31,11 @@ public:
 		return this->nombre;
 	}
 
-	void setTelefono(string _telefono)
+	void setTelefono(int _telefono)
 	{
 		this->telefono = _telefono;
 	}
-	string getTelefono() const
+	int getTelefono() const
 	{
 		return this->telefono;
 	}
@@ -47,10 +48,10 @@ public:
 		return this->correo;
 	}
 
-	virtual void getMostrarDatos() const 
+	virtual void getMostrarDatos() const
 	{
 		cout << "Nombre: " << this->nombre << endl;
 		cout << "Telefono: " << this->telefono << endl;
 		cout << "Correo: " << this->correo << endl;
-    }
+	}
 };
