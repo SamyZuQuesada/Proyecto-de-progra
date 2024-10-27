@@ -1,27 +1,38 @@
-
 #pragma once
 #include "Librerias.h"
 
 class Persona
 {
 protected:
-
-	string nombre;
 	int cedula;
-	int telefono;
+	string nombre;
+	string telefono;
 	string correo;
-
+	
+	
 public:
-	Persona(string _nombre, int _cedula, int _telefono, string _correo)
+	Persona(int _cedula, string _nombre, string _telefono, string _correo)
 	{
-		this->nombre = _nombre;
 		this->cedula = _cedula;
+		this->nombre = _nombre;
 		this->telefono = _telefono;
 		this->correo = _correo;
+	
 	}
 
-	//metodos setter y getter
 
+	//metodos setter y getter
+	
+	void setCedula(int _cedula)
+	{
+		this->cedula = _cedula;
+	}
+	
+	int getCedula() const
+	{
+		return this->cedula;
+	}
+	
 	void setNombre(string _nombre)
 	{
 		this->nombre = _nombre;
@@ -32,21 +43,11 @@ public:
 		return this->nombre;
 	}
 
-	void setCedula(int _cedula)
-	{
-		this->cedula = _cedula;
-	}
-
-	int getCedula() const
-	{
-		return this->cedula;
-	}
-
-	void setTelefono(int _telefono)
+	void setTelefono(string _telefono)
 	{
 		this->telefono = _telefono;
 	}
-	int getTelefono() const
+	string getTelefono() const
 	{
 		return this->telefono;
 	}
@@ -58,12 +59,14 @@ public:
 	{
 		return this->correo;
 	}
+	
 
-	virtual void getMostrarDatos() const
+	virtual void getMostrarDatos() const 
 	{
-		cout << "Nombre: " << this->nombre << endl;
 		cout << "Cedula: " << this->cedula << endl;
+		cout << "Nombre: " << this->nombre << endl;
 		cout << "Telefono: " << this->telefono << endl;
 		cout << "Correo: " << this->correo << endl;
-	}
+		
+    }
 };
