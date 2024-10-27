@@ -7,17 +7,18 @@ class Persona
 protected:
 
 	string nombre;
-	string telefono;
+	int cedula;
+	int telefono;
 	string correo;
 
 public:
-	Persona(string _nombre, string _telefono, string _correo)
+	Persona(string _nombre, int _cedula, int _telefono, string _correo)
 	{
 		this->nombre = _nombre;
+		this->cedula = _cedula;
 		this->telefono = _telefono;
 		this->correo = _correo;
 	}
-
 
 	//metodos setter y getter
 
@@ -31,11 +32,21 @@ public:
 		return this->nombre;
 	}
 
-	void setTelefono(string _telefono)
+	void setCedula(int _cedula)
+	{
+		this->cedula = _cedula;
+	}
+
+	int getCedula() const
+	{
+		return this->cedula;
+	}
+
+	void setTelefono(int _telefono)
 	{
 		this->telefono = _telefono;
 	}
-	string getTelefono() const
+	int getTelefono() const
 	{
 		return this->telefono;
 	}
@@ -51,6 +62,7 @@ public:
 	virtual void getMostrarDatos() const
 	{
 		cout << "Nombre: " << this->nombre << endl;
+		cout << "Cedula: " << this->cedula << endl;
 		cout << "Telefono: " << this->telefono << endl;
 		cout << "Correo: " << this->correo << endl;
 	}
