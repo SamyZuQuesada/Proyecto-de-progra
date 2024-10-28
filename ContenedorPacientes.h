@@ -1,4 +1,3 @@
-
 #pragma once
 #include "Librerias.h"
 #include "Persona.h"
@@ -60,7 +59,7 @@ public:
 		}
 
 
-		Pacientes* newPaciente = new Pacientes(nombre, telefono, correo, cedula, apellido, fechaRegistro);
+		Pacientes* newPaciente = new Pacientes(nombre, telefono, correo, apellido, cedula, fechaRegistro);
 		listaPacientes.push_back(newPaciente);
 
 		cout << "Paciente registrado con exito!!" << endl;
@@ -199,20 +198,20 @@ public:
 			stringstream ss(linea);
 			string cedula, nombre, apellido, telefono, correo, fechaRegistro;
 
-			getline(ss, cedula, ',');
+			getline(ss, cedula, '-');
 			int _cedula = stoi(cedula);
 
-			getline(ss, nombre, ',');
+			getline(ss, nombre, '-');
 
-			getline(ss, apellido, ',');
+			getline(ss, apellido, '-');
 
-			getline(ss, telefono, ',');
+			getline(ss, telefono, '-');
 
-			getline(ss, correo, ',');
+			getline(ss, correo, '-');
 
-			getline(ss, fechaRegistro, ',');
+			getline(ss, fechaRegistro, '-');
 
-			Pacientes* paciente = new Pacientes(nombre, telefono, correo, _cedula, apellido, fechaRegistro);
+			Pacientes* paciente = new Pacientes(nombre, telefono, correo, apellido, _cedula, fechaRegistro);
 			listaPacientes.push_back(paciente);
 		}
 		archivo.close();
