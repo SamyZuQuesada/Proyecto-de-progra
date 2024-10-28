@@ -1,77 +1,78 @@
+
 #pragma once
 #include "Librerias.h"
 #include "Persona.h"
 #include "Pacientes.h"
 
 
-class ContenedorPacientes 
+class ContenedorPacientes
 {
 private:
 	vector<Pacientes*> listaPacientes;
 
-	
+
 public:
 
 	void setRegistrarPaciente()
 	{
-			int cedula;
-			string nombre, telefono, correo, apellido, fechaRegistro;
+		int cedula;
+		string nombre, telefono, correo, apellido, fechaRegistro;
 
 
-			cout << "Ingrese la cedula del paciente: ";
-			cin >> cedula;
-			
+		cout << "Ingrese la cedula del paciente: ";
+		cin >> cedula;
 
-			if (cedula < 0 || cedula > 9999999999)
-			{
-				cout << "Cedula no valida, ingrese un numero positivo de hasta 10 digitos " << endl;
+
+		if (cedula < 0 || cedula > 9999999999)
+		{
+			cout << "Cedula no valida, ingrese un numero positivo de hasta 10 digitos " << endl;
+			return;
+		}
+
+		for (int i = 0; i < listaPacientes.size(); i++) {
+			if (listaPacientes[i]->getCedula() == cedula) { //se compara codigo, si este se repite imprimira que ya existe un paciente con este mismo codigo 
+				cout << "Ya hay un paciente registrado con esta cedula." << endl;
 				return;
 			}
+		}
 
-			for (int i = 0; i < listaPacientes.size(); i++) {
-				if (listaPacientes[i]->getCedula() == cedula) { //se compara codigo, si este se repite imprimira que ya existe un paciente con este mismo codigo 
-					cout << "Ya hay un paciente registrado con esta cedula." << endl;
-					return;
-				}
-			}
+		cin.ignore();
 
-			cin.ignore();
+		cout << "Ingrese el nombre del paciente: ";
+		getline(cin, nombre);
 
-			cout << "Ingrese el nombre del paciente: ";
-			getline(cin, nombre);
+		cout << "Ingrese el apellido del paciente: ";
+		getline(cin, apellido);
 
-			cout << "Ingrese el apellido del paciente: ";
-			getline(cin, apellido);
+		cout << "Ingrese el telefono del paciente: ";
+		getline(cin, telefono);
 
-			cout << "Ingrese el telefono del paciente: ";
-			getline(cin, telefono);
+		cout << "Ingrese el correo del paciente: ";
+		getline(cin, correo);
 
-			cout << "Ingrese el correo del paciente: ";
-			getline(cin, correo);
+		cout << "Ingrese la fecha de registro del paciente: ";
+		getline(cin, fechaRegistro);
 
-			cout << "Ingrese la fecha de registro del paciente: ";
-			getline(cin, fechaRegistro);
+		if (nombre.empty() || apellido.empty() || telefono.empty() || correo.empty() || fechaRegistro.empty())
+		{
+			cout << "No se permiten campos vacios" << endl;
+			return;
+		}
 
-			if (nombre.empty() || apellido.empty() || telefono.empty() || correo.empty() || fechaRegistro.empty())
-			{
-				cout << "No se permiten campos vacios" << endl;
-				return;
-			}
-			
 
-			Pacientes* newPaciente = new Pacientes(nombre, telefono, correo, apellido,cedula, fechaRegistro);
-			listaPacientes.push_back(newPaciente);
+		Pacientes* newPaciente = new Pacientes(nombre, telefono, correo, cedula, apellido, fechaRegistro);
+		listaPacientes.push_back(newPaciente);
 
-            cout << "Paciente registrado con exito" << endl;
+		cout << "Paciente registrado con exito" << endl;
 
-			for (int i = 0; i < listaPacientes.size(); i++)
-			{
-				listaPacientes[i]->getMostrarDatos();
-			}
-			
+		for (int i = 0; i < listaPacientes.size(); i++)
+		{
+			listaPacientes[i]->getMostrarDatos();
+		}
+
 	}
 
-	void setModificarPacientes() 
+	void setModificarPacientes()
 	{
 		int cedula;
 		bool buscar = false;
@@ -109,7 +110,7 @@ public:
 
 					cout << "Ingrese la fecha de registro del paciente: ";
 					getline(cin, fechaRegistro);
-				
+
 
 					if (nombre.empty() || apellido.empty() || telefono.empty() || correo.empty() || fechaRegistro.empty())
 					{
@@ -128,7 +129,7 @@ public:
 					listaPacientes[i]->getMostrarDatos();
 
 				}
-			}	
+			}
 			if (!buscar)
 			{
 				cout << "No se ha registrado un paciente con ese numero de cedula..." << endl;
@@ -147,11 +148,11 @@ public:
 			return;
 		}
 
-		else 
+		else
 		{
 			cout << ".............. Lista de Pacientes .............." << endl;
 			for (int i = 0; i < listaPacientes.size(); i++) {
-					listaPacientes[i]->getMostrarDatos();
+				listaPacientes[i]->getMostrarDatos();
 				cout << "................................................" << endl;
 			}
 		}
@@ -185,13 +186,13 @@ public:
 	{
 		listaPacientes.clear();
 		ifstream archivo(nombreArchivo);
-		
+
 		if (!archivo.is_open())
 		{
 			cout << "Error al abrir el archivo." << endl;
 			return;
 		}
-		
+
 		string linea;
 		while (getline(archivo, linea))
 		{
@@ -211,7 +212,7 @@ public:
 
 			getline(ss, fechaRegistro, ',');
 
-			Pacientes* paciente = new Pacientes(nombre, telefono, correo, apellido, _cedula, fechaRegistro);
+			Pacientes* paciente = new Pacientes(nombre, telefono, correo, _cedula, apellido, fechaRegistro);
 			listaPacientes.push_back(paciente);
 		}
 		archivo.close();
@@ -272,7 +273,7 @@ public:
 			{
 				cout << "Opción no válida." << endl;
 				break;
-				}
+			}
 			}
 		} while (opcion != 6);
 	}
