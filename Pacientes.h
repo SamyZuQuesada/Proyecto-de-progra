@@ -10,7 +10,7 @@ private:
 	string fechaRegistro;
 
 public:
-	Pacientes(string _nombre, string _telefono, string _correo, string _apellido, int _cedula, string _fechaRegistro) : Persona(_nombre, _correo, _telefono)
+	Pacientes(string _nombre, string _telefono, string _correo, string _apellido, int _cedula, string _fechaRegistro) : Persona( _cedula,  _nombre,  _telefono,  _correo)
 	{
 		this->cedula = _cedula;
 		this->apellido = _apellido;
