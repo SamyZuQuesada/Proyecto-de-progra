@@ -63,7 +63,7 @@ public:
 		Pacientes* newPaciente = new Pacientes(nombre, telefono, correo, cedula, apellido, fechaRegistro);
 		listaPacientes.push_back(newPaciente);
 
-		cout << "Paciente registrado con exito" << endl;
+		cout << "Paciente registrado con exito!!" << endl;
 
 		for (int i = 0; i < listaPacientes.size(); i++)
 		{
@@ -125,7 +125,7 @@ public:
 					listaPacientes[i]->setCorreo(correo);
 					listaPacientes[i]->setFechaRegistro(fechaRegistro);
 
-					cout << "Paciente modificado con éxito." << endl;
+					cout << "Paciente modificado con éxito!" << endl;
 					listaPacientes[i]->getMostrarDatos();
 
 				}
@@ -226,15 +226,16 @@ public:
 		string nombreArchivo = "pacientes.txt";
 
 		do {
-			cout << "......................Menú Pacientes..............." << endl;
+			system("cls");
+			cout << "......................Menu Pacientes..............." << endl;
 			cout << "1. Registrar nuevo paciente" << endl;
 			cout << "2. Modificar paciente" << endl;
 			cout << "3. Consultar todos los datos" << endl;
 			cout << "4. Guardar contenedor en archivo" << endl;
 			cout << "5. Recuperar datos del archivo" << endl;
-			cout << "6. Regresar al menú principal" << endl;
+			cout << "6. Regresar al menu principal" << endl;
 			cout << "............................................." << endl;
-			cout << "Ingrese una opción: ";
+			cout << "Ingrese una opcion: ";
 			cin >> opcion;
 
 			switch (opcion)
@@ -242,36 +243,43 @@ public:
 			case 1:
 			{
 				setRegistrarPaciente();
+				system("pause");
 				break;
 			}
 			case 2:
 			{
 				setModificarPacientes();
+				system("pause");
 				break;
 			}
 			case 3:
 			{
 				setMostrarListaPacientes();
+				system("pause");
 				break;
 			}
 			case 4:
 			{
 				guardarArchivo(nombreArchivo);
+				system("pause");
 				break;
 			}
 			case 5:
 			{
 				cargarArchivos(nombreArchivo);
+				system("pause");
 				break;
 			}
 			case 6:
 			{
-				cout << "Regresando al menú principal..." << endl;
+				cout << "Regresando al menu principal..." << endl;
+				system("pause");
 				break;
 			}
 			default:
 			{
-				cout << "Opción no válida." << endl;
+				cout << "Opcion no valida." << endl;
+				system("pause");
 				break;
 			}
 			}
