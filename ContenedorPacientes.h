@@ -1,3 +1,4 @@
+
 #pragma once
 #include "Librerias.h"
 #include "Persona.h"
@@ -28,8 +29,10 @@ public:
 			return;
 		}
 
-		for (int i = 0; i < listaPacientes.size(); i++) {
-			if (listaPacientes[i]->getCedula() == cedula) { //se compara codigo, si este se repite imprimira que ya existe un paciente con este mismo codigo 
+		for (int i = 0; i < listaPacientes.size(); i++)
+		{
+			if (listaPacientes[i]->getCedula() == cedula)
+			{ //se compara codigo, si este se repite imprimira que ya existe un paciente con la misma identificacion 
 				cout << "Ya hay un paciente registrado con esta cedula." << endl;
 				return;
 			}
@@ -70,7 +73,7 @@ public:
 			listaPacientes[i]->getMostrarDatos();
 		}
 		cout << "............................................................" << endl;
-     }
+	}
 
 	void setModificarPacientes()
 	{
@@ -166,12 +169,12 @@ public:
 			for (int i = 0; i < listaPacientes.size(); i++)
 			{
 				archivo << listaPacientes[i]->getCedula()
-					<< "-" << listaPacientes[i]->getNombre() 
+					<< "-" << listaPacientes[i]->getNombre()
+					<< "-" << listaPacientes[i]->getApellido()
 					<< "-" << listaPacientes[i]->getTelefono()
 					<< "-" << listaPacientes[i]->getCorreo()
-					<< "-" << listaPacientes[i]->getApellido()
-					<< "-" << listaPacientes[i]->getFechaRegistro() 
-					<<endl;
+					<< "-" << listaPacientes[i]->getFechaRegistro()
+					<< endl;
 				cout << "...................................................." << endl;
 			}
 			archivo.close();
@@ -203,13 +206,15 @@ public:
 			getline(ss, cedula, '-');
 			int _cedula = stoi(cedula);
 
+			getline(ss, cedula, '-');
+
 			getline(ss, nombre, '-');
+
+			getline(ss, apellido, '-');
 
 			getline(ss, telefono, '-');
 
 			getline(ss, correo, '-');
-
-			getline(ss, apellido, '-');
 
 			getline(ss, fechaRegistro, '-');
 
@@ -242,8 +247,8 @@ public:
 			{
 			case 1:
 			{
-				recuperarArchivos();
 				setRegistrarPaciente();
+				recuperarArchivos();
 				system("pause");
 				break;
 			}
