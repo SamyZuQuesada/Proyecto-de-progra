@@ -166,10 +166,10 @@ public:
 			for (int i = 0; i < listaPacientes.size(); i++)
 			{
 				archivo << listaPacientes[i]->getCedula()
-					<< "-" << listaPacientes[i]->getNombre()
-					<< "-" << listaPacientes[i]->getApellido() 
+					<< "-" << listaPacientes[i]->getNombre() 
 					<< "-" << listaPacientes[i]->getTelefono()
 					<< "-" << listaPacientes[i]->getCorreo()
+					<< "-" << listaPacientes[i]->getApellido()
 					<< "-" << listaPacientes[i]->getFechaRegistro() 
 					<<endl;
 				cout << "...................................................." << endl;
