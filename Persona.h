@@ -63,10 +63,11 @@ public:
 
 	virtual void getMostrarDatos() const 
 	{
-		cout << "Cedula: " << this->cedula << endl;
-		cout << "Nombre: " << this->nombre << endl;
-		cout << "Telefono: " << this->telefono << endl;
-		cout << "Correo: " << this->correo << endl;
+		cout << "Cedula: " << getCedula() << endl;
+		cout << "Nombre: " << getNombre() << endl;
+		cout << "Telefono: " << getTelefono() << endl;
+		cout << "Correo: " << getCorreo() << endl;
 		
     }
 };
+
