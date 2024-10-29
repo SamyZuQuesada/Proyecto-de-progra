@@ -1,49 +1,72 @@
 #pragma once
 #include "Librerias.h"
-#include "Persona.h"
 
-class Pacientes : public Persona
+class Persona
 {
-private:
-	string apellido;
-	string fechaRegistro;
-
+protected:
+	int cedula;
+	string nombre;
+	string telefono;
+	string correo;
+	
+	
 public:
-	Pacientes(int _cedula, string _nombre, string _telefono, string _correo, string _apellido, string _fechaRegistro) : Persona( _cedula,  _nombre,  _telefono,  _correo)
+	Persona(int _cedula, string _nombre, string _telefono, string _correo)
 	{
-		this->apellido = _apellido;
-		this->fechaRegistro = _fechaRegistro;
+		this->cedula = _cedula;
+		this->nombre = _nombre;
+		this->telefono = _telefono;
+		this->correo = _correo;
+	
 	}
+
 
 	//metodos setter y getter
-
-	void setApellido(const string _apellido)
-	{
-		this->apellido = _apellido;
-	}
-	const string getApellido() const
-	{
-		return this->apellido;
-	}
-
-	void setFechaRegistro(const string _fechaRegistro)
-	{
-		this->fechaRegistro = _fechaRegistro;
-	}
-	const string getFechaRegistro() const
-	{
-		return this->fechaRegistro;
-	}
-
 	
-	//Metodo que muestra datos del paciente utilizando polimosrfismo
-	void getMostrarDatos() const override
+	void setCedula(int _cedula)
 	{
-		cout << "................Datos del paciente............" << endl;
-		Persona::getMostrarDatos();
-		cout << "Apellido: " << getApellido() << endl;
-		cout << "Fecha de registro: " << getFechaRegistro() << endl;
-		cout << "..............................................." << endl;
+		this->cedula = _cedula;
+	}
+	
+	int getCedula() const
+	{
+		return this->cedula;
+	}
+	
+	void setNombre(string _nombre)
+	{
+		this->nombre = _nombre;
 	}
 
+	string getNombre() const
+	{
+		return this->nombre;
+	}
+
+	void setTelefono(string _telefono)
+	{
+		this->telefono = _telefono;
+	}
+	string getTelefono() const
+	{
+		return this->telefono;
+	}
+	void setCorreo(string _correo)
+	{
+		this->correo = _correo;
+	}
+	string getCorreo() const
+	{
+		return this->correo;
+	}
+	
+
+	virtual void getMostrarDatos() const 
+	{
+		cout << "Cedula: " << getCedula() << endl;
+		cout << "Nombre: " << getNombre() << endl;
+		cout << "Telefono: " << getTelefono() << endl;
+		cout << "Correo: " << getCorreo() << endl;
+		
+    }
 };
