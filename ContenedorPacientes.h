@@ -59,17 +59,18 @@ public:
 		}
 
 
-		Pacientes* newPaciente = new Pacientes(nombre, telefono, correo, apellido, cedula, fechaRegistro);
+		Pacientes* newPaciente = new Pacientes(cedula, nombre, telefono, correo, apellido, fechaRegistro);
 		listaPacientes.push_back(newPaciente);
 
 		cout << "Paciente registrado con exito!!" << endl;
 
+		cout << "............. Lista de pacientes registrados................." << endl;
 		for (int i = 0; i < listaPacientes.size(); i++)
 		{
 			listaPacientes[i]->getMostrarDatos();
 		}
-
-	}
+		cout << "............................................................" << endl;
+     }
 
 	void setModificarPacientes()
 	{
@@ -85,7 +86,7 @@ public:
 		else
 		{
 
-			cout << "Ingrese el num° de cedula del paciente: ";
+			cout << "Ingrese el numero de cedula del paciente: ";
 			cin >> cedula;
 
 			for (int i = 0; i < listaPacientes.size(); i++) {
@@ -157,19 +158,20 @@ public:
 		}
 	}
 
-	void guardarArchivo(const string& nombreArchivo) const
+	void guardarArchivo()
 	{
-		ofstream archivo(nombreArchivo);
+		ofstream archivo("pacientes.txt");
 		if (archivo.is_open())
 		{
 			for (int i = 0; i < listaPacientes.size(); i++)
 			{
-				archivo << listaPacientes[i]->getCedula() << "," <<
-					listaPacientes[i]->getNombre() << "," <<
-					listaPacientes[i]->getApellido() << "," <<
-					listaPacientes[i]->getTelefono() << "," <<
-					listaPacientes[i]->getCorreo() << "," <<
-					listaPacientes[i]->getFechaRegistro() << "," << endl;
+				archivo << listaPacientes[i]->getCedula()
+					<< "-" << listaPacientes[i]->getNombre()
+					<< "-" << listaPacientes[i]->getApellido() 
+					<< "-" << listaPacientes[i]->getTelefono()
+					<< "-" << listaPacientes[i]->getCorreo()
+					<< "-" << listaPacientes[i]->getFechaRegistro() 
+					<<endl;
 				cout << "...................................................." << endl;
 			}
 			archivo.close();
@@ -181,10 +183,10 @@ public:
 		}
 	}
 
-	void cargarArchivos(const string& nombreArchivo)
+	void recuperarArchivos()
 	{
 		listaPacientes.clear();
-		ifstream archivo(nombreArchivo);
+		ifstream archivo("pacientes.txt");
 
 		if (!archivo.is_open())
 		{
@@ -203,15 +205,15 @@ public:
 
 			getline(ss, nombre, '-');
 
-			getline(ss, apellido, '-');
-
 			getline(ss, telefono, '-');
 
 			getline(ss, correo, '-');
 
+			getline(ss, apellido, '-');
+
 			getline(ss, fechaRegistro, '-');
 
-			Pacientes* paciente = new Pacientes(nombre, telefono, correo, apellido, _cedula, fechaRegistro);
+			Pacientes* paciente = new Pacientes(_cedula, nombre, telefono, correo, apellido, fechaRegistro);
 			listaPacientes.push_back(paciente);
 		}
 		archivo.close();
@@ -222,7 +224,6 @@ public:
 	{
 
 		int opcion;
-		string nombreArchivo = "pacientes.txt";
 
 		do {
 			system("cls");
@@ -241,6 +242,7 @@ public:
 			{
 			case 1:
 			{
+				recuperarArchivos();
 				setRegistrarPaciente();
 				system("pause");
 				break;
@@ -259,13 +261,13 @@ public:
 			}
 			case 4:
 			{
-				guardarArchivo(nombreArchivo);
+				guardarArchivo();
 				system("pause");
 				break;
 			}
 			case 5:
 			{
-				cargarArchivos(nombreArchivo);
+				recuperarArchivos();
 				system("pause");
 				break;
 			}
