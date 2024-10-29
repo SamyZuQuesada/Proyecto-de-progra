@@ -1,4 +1,3 @@
-
 #pragma once
 #include "Librerias.h"
 #include "Persona.h"
@@ -23,7 +22,7 @@ public:
 		cin >> cedula;
 
 
-		if (cedula < 0 || cedula > 9999999999)
+		if (cedula < 0 || cedula > 2222222222)
 		{
 			cout << "Cedula no valida, ingrese un numero positivo de hasta 10 digitos " << endl;
 			return;
@@ -138,7 +137,17 @@ public:
 				cout << "No se ha registrado un paciente con ese numero de cedula..." << endl;
 
 			}
+			cout << "............. Lista de pacientes registrados................." << endl;
+			for (int i = 0; i < listaPacientes.size(); i++)
+			{
+
+				listaPacientes[i]->getMostrarDatos();
+			}
+			cout << "............................................................" << endl;
+
+			cout << "No existe un medico con esa cedula" << endl;
 		}
+
 	}
 
 
@@ -175,14 +184,13 @@ public:
 					<< "-" << listaPacientes[i]->getCorreo()
 					<< "-" << listaPacientes[i]->getFechaRegistro()
 					<< endl;
-				cout << "...................................................." << endl;
 			}
 			archivo.close();
 			cout << "Paciente fue guardado correctamente....";
 		}
 		else
 		{
-			cout << "Error al abrir el archivo para guardar los datos." << endl;
+			cout << "Error al abrir el archivo." << endl;
 		}
 	}
 
@@ -191,11 +199,8 @@ public:
 		listaPacientes.clear();
 		ifstream archivo("pacientes.txt");
 
-		if (!archivo.is_open())
+		if (archivo.is_open())
 		{
-			cout << "Error al abrir el archivo." << endl;
-			return;
-		}
 
 		string linea;
 		while (getline(archivo, linea))
@@ -205,8 +210,6 @@ public:
 
 			getline(ss, cedula, '-');
 			int _cedula = stoi(cedula);
-
-			getline(ss, cedula, '-');
 
 			getline(ss, nombre, '-');
 
@@ -223,6 +226,11 @@ public:
 		}
 		archivo.close();
 		cout << "Datos cargados correctamente..." << endl;
+		}
+		else
+		{
+			cout << "Error al abrir el archivo." << endl;
+		}
 	}
 
 	void menuPacientes()
@@ -247,8 +255,8 @@ public:
 			{
 			case 1:
 			{
-				setRegistrarPaciente();
 				recuperarArchivos();
+				setRegistrarPaciente();
 				system("pause");
 				break;
 			}
