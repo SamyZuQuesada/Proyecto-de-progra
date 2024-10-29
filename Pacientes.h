@@ -1,72 +1,49 @@
 #pragma once
 #include "Librerias.h"
+#include "Persona.h"
 
-class Persona
+class Pacientes : public Persona
 {
-protected:
-	int cedula;
-	string nombre;
-	string telefono;
-	string correo;
-	
-	
-public:
-	Persona(int _cedula, string _nombre, string _telefono, string _correo)
-	{
-		this->cedula = _cedula;
-		this->nombre = _nombre;
-		this->telefono = _telefono;
-		this->correo = _correo;
-	
-	}
+private:
+	string apellido;
+	string fechaRegistro;
 
+public:
+	Pacientes(int _cedula, string _nombre, string _telefono, string _correo, string _apellido, string _fechaRegistro) : Persona( _cedula,  _nombre,  _telefono,  _correo)
+	{
+		this->apellido = _apellido;
+		this->fechaRegistro = _fechaRegistro;
+	}
 
 	//metodos setter y getter
-	
-	void setCedula(int _cedula)
+
+	void setApellido(const string _apellido)
 	{
-		this->cedula = _cedula;
+		this->apellido = _apellido;
 	}
-	
-	int getCedula() const
+	const string getApellido() const
 	{
-		return this->cedula;
-	}
-	
-	void setNombre(string _nombre)
-	{
-		this->nombre = _nombre;
+		return this->apellido;
 	}
 
-	string getNombre() const
+	void setFechaRegistro(const string _fechaRegistro)
 	{
-		return this->nombre;
+		this->fechaRegistro = _fechaRegistro;
+	}
+	const string getFechaRegistro() const
+	{
+		return this->fechaRegistro;
 	}
 
-	void setTelefono(string _telefono)
-	{
-		this->telefono = _telefono;
-	}
-	string getTelefono() const
-	{
-		return this->telefono;
-	}
-	void setCorreo(string _correo)
-	{
-		this->correo = _correo;
-	}
-	string getCorreo() const
-	{
-		return this->correo;
-	}
 	
-
-	virtual void getMostrarDatos() const 
+	//Metodo que muestra datos del paciente utilizando polimosrfismo
+	void getMostrarDatos() const override
 	{
-		cout << "Cedula: " << getCedula() << endl;
-		cout << "Nombre: " << getNombre() << endl;
-		cout << "Telefono: " << getTelefono() << endl;
-		cout << "Correo: " << getCorreo() << endl;
-		
-    }
+		cout << "................Datos del paciente............" << endl;
+		Persona::getMostrarDatos();
+		cout << "Apellido: " << getApellido() << endl;
+		cout << "Fecha de registro: " << getFechaRegistro() << endl;
+		cout << "..............................................." << endl;
+	}
+
 };
