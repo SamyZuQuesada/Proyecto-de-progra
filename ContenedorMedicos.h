@@ -1,321 +1,294 @@
+
 #pragma once
 #include "Librerias.h"
-#include "Medicos.h"
+#include "Persona.h"
+#include "Pacientes.h"
 
-class ContenedorMedicos
+
+class ContenedorPacientes
 {
 private:
-	vector<Medicos*> listaMedicos; // se utiliza un vector de punteros a objeto de tipo medico
+	vector<Pacientes*> listaPacientes;
+
 
 public:
 
-	/*vector<Medicos*&> getVectorMedicos()
+	void setRegistrarPaciente()
 	{
-		return listaMedicos;
-	}*/
-	void setRegistrarMedico()
-	{
-		int codigo, cedula;
-		string nombre, telefono, correo;
-		bool disponibilidad;
+		int cedula;
+		string nombre, telefono, correo, apellido, fechaRegistro;
 
-		cout << "Ingrese la cedula del medico: ";
+
+		cout << "Ingrese la cedula del paciente: ";
 		cin >> cedula;
 
-		if (cedula < 0 || cedula > 2222222222)
+
+		if (cedula < 0 || cedula > 9999999999)
 		{
 			cout << "Cedula no valida, ingrese un numero positivo de hasta 10 digitos " << endl;
 			return;
 		}
-			for (int i = 0; i < listaMedicos.size(); i++) {
-				if (listaMedicos[i]->getCedula() == cedula) { //se compara codigo, si este se repite imprimira que ya existe un medico con este mismo codigo 
-					cout << "Ya hay un medico registrado con esta cedula." << endl;
-					return;
-				}
-			}
-		
 
-		    cout << "Ingrese el codigo del medico: " << endl;
-			cin >> codigo;
-
-			if (codigo < 0 || codigo > 2222)
-			{
-				cout << "codigo no valido, ingrese un numero positivo de hasta 4 digitos " << endl;
+		for (int i = 0; i < listaPacientes.size(); i++)
+		{
+			if (listaPacientes[i]->getCedula() == cedula)
+			{ //se compara codigo, si este se repite imprimira que ya existe un paciente con la misma identificacion 
+				cout << "Ya hay un paciente registrado con esta cedula." << endl;
 				return;
 			}
+		}
 
-			cin.ignore();
-			do
-			{
+		cin.ignore();
 
-				cout << "Ingrese el nombre del medico: ";
-				getline(cin, nombre);
+		cout << "Ingrese el nombre del paciente: ";
+		getline(cin, nombre);
 
-				cout << "Ingrese el telefono del medico: ";
-				getline(cin, telefono);
+		cout << "Ingrese el apellido del paciente: ";
+		getline(cin, apellido);
 
-				cout << "Ingrese el correo del medico: ";
-				getline(cin, correo);
+		cout << "Ingrese el telefono del paciente: ";
+		getline(cin, telefono);
 
-				cout << "Ingrese la disponibilidad del medico (1 si esta disponible, 0 si no esta disponible): ";
-				cin >> disponibilidad;
+		cout << "Ingrese el correo del paciente: ";
+		getline(cin, correo);
+
+		cout << "Ingrese la fecha de registro del paciente: ";
+		getline(cin, fechaRegistro);
+
+		if (nombre.empty() || apellido.empty() || telefono.empty() || correo.empty() || fechaRegistro.empty())
+		{
+			cout << "No se permiten campos vacios" << endl;
+			return;
+		}
 
 
-				// Validaciones para verificar que no se ingresen campos vacios
+		Pacientes* newPaciente = new Pacientes(cedula, nombre, telefono, correo, apellido, fechaRegistro);
+		listaPacientes.push_back(newPaciente);
 
-				if (nombre.empty() || telefono.empty() || correo.empty())
-				{
-					cout << "No se permiten campos vacios, intentelo de nuevo" << endl;
-				}
-			} while (nombre.empty() || telefono.empty() || correo.empty());// se hace uso de metodo do-while para que se soliciten los datos al usuario hasta llene todos los campos
+		cout << "Paciente registrado con exito!!" << endl;
 
-			Medicos* newMedico = new Medicos(codigo, nombre, telefono, correo, cedula, disponibilidad);
-			listaMedicos.push_back(newMedico); //se agrega el nuevo medico al vector de medicos
-
-			cout << "Medico registrado con exito" << endl;
-
-			//Se muestra la lista de medicos registrados
-			cout << "............. Lista de medicos registrados................." << endl;
-			for (int i = 0; i < listaMedicos.size(); i++)
-			{
-
-				listaMedicos[i]->getMostrarDatos();
-			}
-
+		cout << "............. Lista de pacientes registrados................." << endl;
+		for (int i = 0; i < listaPacientes.size(); i++)
+		{
+			listaPacientes[i]->getMostrarDatos();
+		}
 		cout << "............................................................" << endl;
 	}
 
-	void getModificarMedico()
+	void setModificarPacientes()
 	{
 		int cedula;
-		string nuevoNombre;
-		string nuevoTelefono;
-		string nuevoCorreo;
-		bool nuevaDisponibilidad;
+		bool buscar = false;
+		string nombre, telefono, correo, apellido, fechaRegistro;
 
-
-		if (listaMedicos.empty())
+		if (listaPacientes.empty())
 		{
-			cout << "No hay medicos registrados" << endl;
-			return;
+			cout << "No hay datos que mostrar... Agrega un paciente para actualizar.. " << endl;
 		}
 
-		cout << "Ingrese su numero de cedula" << endl;
-		cin >> cedula;
-		cin.ignore();
-
-		if (cedula < 0 || cedula > 2222222222) {
-			cout << "Cedula no valida, ingrese un numero positivo de hasta 10 digitos " << endl;
-			return;
-		}
-
-		for (int i = 0; i < listaMedicos.size(); i++)
-		{
-			if (listaMedicos[i]->getCedula() == cedula) // se verifica que la cedula ingresada por el usuario coincida con la cedula del medico ya existente
-			{
-
-				cout << "Ingrese el nuevo nombre del medico: " << endl;
-				getline(cin, nuevoNombre);
-
-				cout << "Ingrese el nuevo telefono del medico: " << endl;
-				getline(cin, nuevoTelefono);
-
-				cout << "Ingrese el nuevo correo del medico: " << endl;
-				getline(cin, nuevoCorreo);
-
-				cout << "Ingrese la nueva disponibilidad del medico (1 si esta disponible, 0 si no esta disponible): " << endl;
-				cin >> nuevaDisponibilidad;
-				cin.ignore();
-
-				// Validaciones para verificar que no se ingresen campos vacios
-				if (nuevoNombre.empty() || nuevoTelefono.empty() || nuevoCorreo.empty())
-				{
-					cout << "No se permiten campos vacios" << endl;
-					return;
-				}
-
-				listaMedicos[i]->setNombre(nuevoNombre);
-				listaMedicos[i]->setTelefono(nuevoTelefono);
-				listaMedicos[i]->setCorreo(nuevoCorreo);
-				listaMedicos[i]->setDisponibilidad(nuevaDisponibilidad);
-				cout << "Medico modificado con exito" << endl;
-			}
-
-			cout << "............. Lista de medicos registrados................." << endl;
-			for (int i = 0; i < listaMedicos.size(); i++)
-			{
-
-				listaMedicos[i]->getMostrarDatos();
-			}
-			cout << "............................................................" << endl;
-
-			cout << "No existe un medico con esa cedula" << endl;
-		}
-	}
-
-	void consultarMedicos()
-	{
-		int disponibilidad = 0;
-
-		cout << "................Lista de medicos registrados................ " << endl;
-		if (listaMedicos.empty())
-		{
-			cout << "No hay medicos registrados" << endl;
-		}
 		else
 		{
-			for (int i = 0; i < listaMedicos.size(); i++)
-			{
-				listaMedicos[i]->getMostrarDatos();
-				cout << "........................................................." << endl;
 
-				if (listaMedicos[i]->getDisponibilidad())
+			cout << "Ingrese el numero de cedula del paciente: ";
+			cin >> cedula;
+
+			for (int i = 0; i < listaPacientes.size(); i++) {
+				if (listaPacientes[i]->getCedula() == cedula)
 				{
-					disponibilidad++;
+					buscar = true;
+
+					cin.ignore();
+
+					cout << "Ingrese el nombre del paciente: ";
+					getline(cin, nombre);
+
+					cout << "Ingrese el apellido del paciente: ";
+					getline(cin, apellido);
+
+					cout << "Ingrese el telefono del paciente: ";
+					getline(cin, telefono);
+
+					cout << "Ingrese el correo del paciente: ";
+					getline(cin, correo);
+
+					cout << "Ingrese la fecha de registro del paciente: ";
+					getline(cin, fechaRegistro);
+
+
+					if (nombre.empty() || apellido.empty() || telefono.empty() || correo.empty() || fechaRegistro.empty())
+					{
+						cout << "No se permiten campos vacios" << endl;
+						return;
+					}
+
+					// Actualizar los datos del paciente encontrado
+					listaPacientes[i]->setNombre(nombre);
+					listaPacientes[i]->setApellido(apellido);
+					listaPacientes[i]->setTelefono(telefono);
+					listaPacientes[i]->setCorreo(correo);
+					listaPacientes[i]->setFechaRegistro(fechaRegistro);
+
+					cout << "Paciente modificado con éxito!" << endl;
+					listaPacientes[i]->getMostrarDatos();
+
 				}
 			}
+			if (!buscar)
+			{
+				cout << "No se ha registrado un paciente con ese numero de cedula..." << endl;
+
+			}
 		}
-		cout << "..............................................." << endl;
-		cout << "Total de medicos registrados: " << listaMedicos.size() << endl;
-		cout << "Medicos disponibles: " << disponibilidad << endl;
-		cout << "Medicos no disponibles: " << listaMedicos.size() - disponibilidad << endl;
-		cout << "..............................................." << endl;
 	}
 
-	void guardarEnArchivo()
+
+	void setMostrarListaPacientes()
 	{
-		ofstream archivo("Medicos.txt"); //se prepara el arcvhivo 
+
+		if (listaPacientes.empty())
+		{
+			cout << "No hay datos que mostrar..." << endl;
+			return;
+		}
+
+		else
+		{
+			cout << ".............. Lista de Pacientes .............." << endl;
+			for (int i = 0; i < listaPacientes.size(); i++) {
+				listaPacientes[i]->getMostrarDatos();
+				cout << "................................................" << endl;
+			}
+		}
+	}
+
+	void guardarArchivo()
+	{
+		ofstream archivo("pacientes.txt");
 		if (archivo.is_open())
 		{
-			for (int i = 0; i < listaMedicos.size(); i++)
+			for (int i = 0; i < listaPacientes.size(); i++)
 			{
-				//almacena la informacion
-				cout << "........................................................" << endl;
-				archivo << listaMedicos[i]->getCedula()
-					<< "-" << listaMedicos[i]->getNombre()
-					<< "-" << listaMedicos[i]->getTelefono()
-					<< "-" << listaMedicos[i]->getCorreo()
-					<< "-" << listaMedicos[i]->getCodigo()
-					<< "-" << (listaMedicos[i]->getDisponibilidad() ? "1" : "0") 
+				archivo << listaPacientes[i]->getCedula()
+					<< "-" << listaPacientes[i]->getNombre()
+					<< "-" << listaPacientes[i]->getApellido()
+					<< "-" << listaPacientes[i]->getTelefono()
+					<< "-" << listaPacientes[i]->getCorreo()
+					<< "-" << listaPacientes[i]->getFechaRegistro()
 					<< endl;
-				cout << "........................................................." << endl;
-
-			}
-			archivo.close(); //se cierra el archivo
-			cout << "Datos guardados correctamente en el archivo Medicos.txt" << endl;
-		}
-		else
-		{
-			cout << "No se pudo abrir el archivo" << endl;
-		}
-	}
-
-	void recuperarArchivo()
-	{
-		listaMedicos.clear();
-		ifstream archivo("Medicos.txt");
-		if (archivo.is_open())
-		{
-			string linea;
-			while (getline(archivo, linea))
-			{
-				stringstream ss(linea);
-				string cedula, codigo, nombre, telefono, correo, disponibilidad;
-
-
-				getline(ss, cedula, '-');
-				int _cedula = stoi(cedula);
-
-				getline(ss, nombre, '-');
-
-				getline(ss, telefono, '-');
-
-				getline(ss, correo, '-');
-
-				getline(ss, codigo, '-');
-				int _codigo = stoi(codigo);
-
-				getline(ss, disponibilidad, '-');
-				bool _disponibilidad = (disponibilidad == "1");
-
-
-				Medicos* newMedico = new Medicos(_codigo, nombre, telefono, correo, _cedula, _disponibilidad);
-				listaMedicos.push_back(newMedico);
+				cout << "...................................................." << endl;
 			}
 			archivo.close();
-			cout << "Datos recuperados correctamente" << endl;
+			cout << "Paciente fue guardado correctamente....";
 		}
 		else
 		{
-			cout << "No se pudo abrir el archivo" << endl;
+			cout << "Error al abrir el archivo para guardar los datos." << endl;
 		}
 	}
 
-
-	 void MenuMedicos()
+	void recuperarArchivos()
 	{
+		listaPacientes.clear();
+		ifstream archivo("pacientes.txt");
+
+		if (!archivo.is_open())
+		{
+			cout << "Error al abrir el archivo." << endl;
+			return;
+		}
+
+		string linea;
+		while (getline(archivo, linea))
+		{
+			stringstream ss(linea);
+			string cedula, nombre, apellido, telefono, correo, fechaRegistro;
+
+			getline(ss, cedula, '-');
+			int _cedula = stoi(cedula);
+
+			getline(ss, cedula, '-');
+
+			getline(ss, nombre, '-');
+
+			getline(ss, apellido, '-');
+
+			getline(ss, telefono, '-');
+
+			getline(ss, correo, '-');
+
+			getline(ss, fechaRegistro, '-');
+
+			Pacientes* paciente = new Pacientes(_cedula, nombre, telefono, correo, apellido, fechaRegistro);
+			listaPacientes.push_back(paciente);
+		}
+		archivo.close();
+		cout << "Datos cargados correctamente..." << endl;
+	}
+
+	void menuPacientes()
+	{
+
 		int opcion;
-		do
-		{
+
+		do {
 			system("cls");
+			cout << "......................Menu Pacientes..............." << endl;
+			cout << "1. Registrar nuevo paciente" << endl;
+			cout << "2. Modificar paciente" << endl;
+			cout << "3. Consultar todos los datos" << endl;
+			cout << "4. Guardar contenedor en archivo" << endl;
+			cout << "5. Recuperar datos del archivo" << endl;
+			cout << "6. Regresar al menu principal" << endl;
+			cout << "............................................." << endl;
+			cout << "Ingrese una opcion: ";
+			cin >> opcion;
 
-		cout << "......................Menu Medicos..............." << endl;
-		cout << "1. Registrar nuevo medico" << endl;
-		cout << "2. Modificar medicos" << endl;
-		cout << "3. Consultar todos los datos" << endl;
-		cout << "4. Guardar contenedor en archivo" << endl;
-		cout << "5. Recuperar datos del archivo" << endl;
-		cout << "6. Regresar al menu principal" << endl;
-		cout << "............................................." << endl;
-		cout << "Ingrese una opcion: ";
-		cin >> opcion;
-		switch (opcion)
-		{
-		case 1:
-		{
-			recuperarArchivo();
-			setRegistrarMedico();
-			system("pause");
-			break;
-		}
-		case 2:
-		{
-			getModificarMedico();
-			system("pause");
-			break;
-		}
-		case 3:
-		{
-			consultarMedicos();
-			system("pause");
-			break;
-		}
-		case 4:
-		{
-			guardarEnArchivo();
-			system("pause");
-			break;
-		}
-		case 5:
-		{
-			recuperarArchivo();
-			system("pause");
-			break;
-		}
-		case 6:
-		{
-			cout << "Regresando al menu principal..." << endl;
-			system("pause");
-			break;
-		}
-		default:
-		{
-			cout << "Opcion no valida" << endl;
-			break;
-		}
-		}
-
-	} while (opcion != 6);
-}
-
+			switch (opcion)
+			{
+			case 1:
+			{
+				setRegistrarPaciente();
+				recuperarArchivos();
+				system("pause");
+				break;
+			}
+			case 2:
+			{
+				setModificarPacientes();
+				system("pause");
+				break;
+			}
+			case 3:
+			{
+				setMostrarListaPacientes();
+				system("pause");
+				break;
+			}
+			case 4:
+			{
+				guardarArchivo();
+				system("pause");
+				break;
+			}
+			case 5:
+			{
+				recuperarArchivos();
+				system("pause");
+				break;
+			}
+			case 6:
+			{
+				cout << "Regresando al menu principal..." << endl;
+				system("pause");
+				break;
+			}
+			default:
+			{
+				cout << "Opcion no valida." << endl;
+				system("pause");
+				break;
+			}
+			}
+		} while (opcion != 6);
+	}
 };
