@@ -9,8 +9,8 @@ private:
 
 public:
 
-		void setRegistrarMedico()
-	    {
+	void setRegistrarMedico()
+	{
 		int codigo, cedula;
 		string nombre, telefono, correo;
 		bool disponibilidad;
@@ -21,64 +21,68 @@ public:
 		if (cedula < 0 || cedula > 2222222222)
 		{
 			cout << "Cedula no valida, ingrese un numero positivo de hasta 10 digitos " << endl;
-			return;
 		}
+		else
+		{
 			for (int i = 0; i < listaMedicos.size(); i++) {
 				if (listaMedicos[i]->getCedula() == cedula) { //se compara codigo, si este se repite imprimira que ya existe un medico con este mismo codigo 
 					cout << "Ya hay un medico registrado con esta cedula." << endl;
-					return;
+				}
+				else {
+
+
+					cin.ignore();
+
+					do {
+
+						cout << "Ingrese el nombre del medico: ";
+						getline(cin, nombre);
+
+						cout << "Ingrese el telefono del medico: ";
+						getline(cin, telefono);
+
+						cout << "Ingrese el correo del medico: ";
+						getline(cin, correo);
+
+						cout << "Ingrese el codigo del medico: " << endl;
+						cin >> codigo;
+
+						if (codigo < 0 || codigo > 2222)
+						{
+							cout << "codigo no valido, ingrese un numero positivo de hasta 4 digitos " << endl;
+							return;
+						}
+
+						cout << "Ingrese la disponibilidad del medico (1 si esta disponible, 0 si no esta disponible): ";
+						cin >> disponibilidad;
+
+
+						if (nombre.empty() || telefono.empty() || correo.empty())
+						{
+							cout << "No se permiten campos vacios, intentelo de nuevo" << endl;
+						}
+					} while (nombre.empty() || telefono.empty() || correo.empty());// se hace uso de metodo do-while para que se soliciten los datos al usuario hasta llene todos los campos
+
+
+					Medicos* newMedico = new Medicos(cedula, nombre, telefono, correo, codigo, disponibilidad);
+					listaMedicos.push_back(newMedico); //se agrega el nuevo medico al vector de medicos
+
+					cout << "Medico registrado con exito" << endl;
+
+					//Se muestra la lista de medicos registrados
+					cout << "............. Lista de medicos registrados................." << endl;
+					for (int i = 0; i < listaMedicos.size(); i++)
+					{
+
+						listaMedicos[i]->getMostrarDatos();
+					}
+
+					cout << "............................................................" << endl;
 				}
 			}
-
-
-		cin.ignore();
-		
-		do{
-
-		cout << "Ingrese el nombre del medico: ";
-		getline(cin, nombre);
-
-		cout << "Ingrese el telefono del medico: ";
-		getline(cin, telefono);
-
-		cout << "Ingrese el correo del medico: ";
-		getline(cin, correo);
-
-		cout << "Ingrese el codigo del medico: " << endl;
-		cin >> codigo;
-
-		if (codigo < 0 || codigo > 2222)
-		{
-			cout << "codigo no valido, ingrese un numero positivo de hasta 4 digitos " << endl;
-			return;
 		}
-
-		cout << "Ingrese la disponibilidad del medico (1 si esta disponible, 0 si no esta disponible): ";
-		cin >> disponibilidad;
-
-
-		if (nombre.empty() || telefono.empty() || correo.empty())
-		{
-			cout << "No se permiten campos vacios, intentelo de nuevo" << endl;
-		}
-		} while (nombre.empty() || telefono.empty() || correo.empty());// se hace uso de metodo do-while para que se soliciten los datos al usuario hasta llene todos los campos
-
-		
-		Medicos* newMedico = new Medicos(cedula, nombre, telefono, correo, codigo, disponibilidad);
-		listaMedicos.push_back(newMedico); //se agrega el nuevo medico al vector de medicos
-
-		cout << "Medico registrado con exito" << endl;
-
-		//Se muestra la lista de medicos registrados
-		cout << "............. Lista de medicos registrados................." << endl;
-		for (int i = 0; i < listaMedicos.size(); i++)
-		{
-
-			listaMedicos[i]->getMostrarDatos();
-		}
-
-		cout << "............................................................" << endl;
 	}
+	
 
 		void getModificarMedico()
 		{
@@ -104,6 +108,7 @@ public:
 					cout << "Cedula no valida, ingrese un numero positivo de hasta 10 digitos " << endl;
 					return;
 				}
+
 
 
 				for (int i = 0; i < listaMedicos.size(); i++)
