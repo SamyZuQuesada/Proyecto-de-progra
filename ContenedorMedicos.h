@@ -9,39 +9,38 @@ private:
 
 public:
 
+	/*vector<Medicos*&> getVectorMedicos()
+	{
+		return listaMedicos;
+	}*/
 	void setRegistrarMedico()
 	{
 		int codigo, cedula;
 		string nombre, telefono, correo;
 		bool disponibilidad;
 
-		//llamar archivo text para que antes de registrar un nuevo medico, carguen los datos del archivo ya anteriormente registrados y guardados
-		recuperarArchivo();
-
-        cout << "Ingrese la cedula del medico: ";
+		cout << "Ingrese la cedula del medico: ";
 		cin >> cedula;
-
 
 		if (cedula < 0 || cedula > 2222222222)
 		{
 			cout << "Cedula no valida, ingrese un numero positivo de hasta 10 digitos " << endl;
 			return;
 		}
-		for (int i = 0; i < listaMedicos.size(); i++)
-		{
-			if (listaMedicos[i]->getCedula() == cedula)
-			{
-				cout << "Ya hay un medico registrado con esta cedula." << endl;
-				return;
+			for (int i = 0; i < listaMedicos.size(); i++) {
+				if (listaMedicos[i]->getCedula() == cedula) { //se compara codigo, si este se repite imprimira que ya existe un medico con este mismo codigo 
+					cout << "Ya hay un medico registrado con esta cedula." << endl;
+					return;
+				}
 			}
-		}
+		
 
-			cout << "Ingrese el codigo del medico: " << endl;
+		    cout << "Ingrese el codigo del medico: " << endl;
 			cin >> codigo;
 
 			if (codigo < 0 || codigo > 2222)
 			{
-				cout << "codigo no valida, ingrese un numero positivo de hasta 4 digitos " << endl;
+				cout << "codigo no valido, ingrese un numero positivo de hasta 4 digitos " << endl;
 				return;
 			}
 
@@ -112,7 +111,7 @@ public:
 
 		for (int i = 0; i < listaMedicos.size(); i++)
 		{
-			if (listaMedicos[i]->getCedula() == cedula) // se veridica que la cedula ingresada por el usuario coincida con la cedula del medico ya existente
+			if (listaMedicos[i]->getCedula() == cedula) // se verifica que la cedula ingresada por el usuario coincida con la cedula del medico ya existente
 			{
 
 				cout << "Ingrese el nuevo nombre del medico: " << endl;
@@ -158,7 +157,6 @@ public:
 	{
 		int disponibilidad = 0;
 
-
 		cout << "................Lista de medicos registrados................ " << endl;
 		if (listaMedicos.empty())
 		{
@@ -194,10 +192,10 @@ public:
 				//almacena la informacion
 				cout << "........................................................" << endl;
 				archivo << listaMedicos[i]->getCedula()
-					<< "-" << listaMedicos[i]->getCodigo()
 					<< "-" << listaMedicos[i]->getNombre()
 					<< "-" << listaMedicos[i]->getTelefono()
 					<< "-" << listaMedicos[i]->getCorreo()
+					<< "-" << listaMedicos[i]->getCodigo()
 					<< "-" << (listaMedicos[i]->getDisponibilidad() ? "1" : "0") 
 					<< endl;
 				cout << "........................................................." << endl;
@@ -228,14 +226,14 @@ public:
 				getline(ss, cedula, '-');
 				int _cedula = stoi(cedula);
 
-				getline(ss, codigo, '-');
-				int _codigo = stoi(codigo);
-
 				getline(ss, nombre, '-');
 
 				getline(ss, telefono, '-');
 
 				getline(ss, correo, '-');
+
+				getline(ss, codigo, '-');
+				int _codigo = stoi(codigo);
 
 				getline(ss, disponibilidad, '-');
 				bool _disponibilidad = (disponibilidad == "1");
@@ -254,7 +252,7 @@ public:
 	}
 
 
-	virtual void MenuMedicos()
+	 void MenuMedicos()
 	{
 		int opcion;
 		do
@@ -275,6 +273,7 @@ public:
 		{
 		case 1:
 		{
+			recuperarArchivo();
 			setRegistrarMedico();
 			system("pause");
 			break;
