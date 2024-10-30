@@ -251,7 +251,7 @@ public:
                         system("pause");
                         system("cls");
                         return;
-                    }
+                    }//aqui falta  un else
                 }
                 else {
                     //el paciente no se encuentra registrado
