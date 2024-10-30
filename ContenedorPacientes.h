@@ -1,3 +1,4 @@
+
 #pragma once
 #include "Librerias.h"
 #include "Persona.h"
@@ -11,6 +12,13 @@ private:
 
 
 public:
+
+	//Esto devuelve la referencia de Pacientes* que es un vector de punteros
+	const vector<Pacientes*>& getListaPacientes() const
+	{
+		return listaPacientes;
+	}
+
 
 	void setRegistrarPaciente()
 	{
@@ -36,29 +44,29 @@ public:
 					return;
 				}
 			}
-			do{
-			cin.ignore();
+			do {
+				cin.ignore();
 
-			cout << "Ingrese el nombre del paciente: ";
-			getline(cin, nombre);
+				cout << "Ingrese el nombre del paciente: ";
+				getline(cin, nombre);
 
-			cout << "Ingrese el apellido del paciente: ";
-			getline(cin, apellido);
+				cout << "Ingrese el apellido del paciente: ";
+				getline(cin, apellido);
 
-			cout << "Ingrese el telefono del paciente: ";
-			getline(cin, telefono);
+				cout << "Ingrese el telefono del paciente: ";
+				getline(cin, telefono);
 
-			cout << "Ingrese el correo del paciente: ";
-			getline(cin, correo);
+				cout << "Ingrese el correo del paciente: ";
+				getline(cin, correo);
 
-			cout << "Ingrese la fecha de registro del paciente: ";
-			getline(cin, fechaRegistro);
+				cout << "Ingrese la fecha de registro del paciente: ";
+				getline(cin, fechaRegistro);
 
-			if (nombre.empty() || apellido.empty() || telefono.empty() || correo.empty() || fechaRegistro.empty())
-			{
-				cout << "No se permiten campos vacios" << endl;
-				return;
-			}
+				if (nombre.empty() || apellido.empty() || telefono.empty() || correo.empty() || fechaRegistro.empty())
+				{
+					cout << "No se permiten campos vacios" << endl;
+					return;
+				}
 			} while (nombre.empty() || apellido.empty() || telefono.empty() || correo.empty() || fechaRegistro.empty());
 
 
@@ -89,7 +97,7 @@ public:
 
 		else
 		{
-             cout << "Ingrese el numero de cedula del paciente: ";
+			cout << "Ingrese el numero de cedula del paciente: ";
 			cin >> cedula;
 
 			for (int i = 0; i < listaPacientes.size(); i++) {
@@ -153,23 +161,23 @@ public:
 
 
 	void setMostrarListaPacientes()
-{
+	{
 
-	if (listaPacientes.empty())
-	{
-		cout << "No hay datos para mostrar..." << endl;
-		return;
-	}
-	else
-	{
-		cout << ".............. Lista de Pacientes .............." << endl;
-		for (int i = 0; i < listaPacientes.size(); i++) {
-			listaPacientes[i]->getMostrarDatos();
+		if (listaPacientes.empty())
+		{
+			cout << "No hay datos para mostrar..." << endl;
+			return;
+		}
+		else
+		{
+			cout << ".............. Lista de Pacientes .............." << endl;
+			for (int i = 0; i < listaPacientes.size(); i++) {
+				listaPacientes[i]->getMostrarDatos();
+				cout << "................................................" << endl;
+				cout << "Total de pacientes registrados: " << listaPacientes.size() << endl;
+			}
 		}
 	}
-	cout << "................................................" << endl;
-	cout << "Total de pacientes registrados: " << listaPacientes.size() << endl;
-}
 
 	void guardarArchivo()
 	{
@@ -203,30 +211,30 @@ public:
 		if (archivo.is_open())
 		{
 
-		string linea;
-		while (getline(archivo, linea))
-		{
-			stringstream ss(linea);
-			string cedula, nombre, apellido, telefono, correo, fechaRegistro;
+			string linea;
+			while (getline(archivo, linea))
+			{
+				stringstream ss(linea);
+				string cedula, nombre, apellido, telefono, correo, fechaRegistro;
 
-			getline(ss, cedula, '-');
-			int _cedula = stoi(cedula);
+				getline(ss, cedula, '-');
+				int _cedula = stoi(cedula);
 
-			getline(ss, nombre, '-');
+				getline(ss, nombre, '-');
 
-			getline(ss, apellido, '-');
+				getline(ss, apellido, '-');
 
-			getline(ss, telefono, '-');
+				getline(ss, telefono, '-');
 
-			getline(ss, correo, '-');
+				getline(ss, correo, '-');
 
-			getline(ss, fechaRegistro, '-');
+				getline(ss, fechaRegistro, '-');
 
-			Pacientes* paciente = new Pacientes(_cedula, nombre, telefono, correo, apellido, fechaRegistro);
-			listaPacientes.push_back(paciente);
-		}
-		archivo.close();
-		cout << "Datos cargados correctamente..." << endl;
+				Pacientes* paciente = new Pacientes(_cedula, nombre, telefono, correo, apellido, fechaRegistro);
+				listaPacientes.push_back(paciente);
+			}
+			archivo.close();
+			cout << "Datos cargados correctamente..." << endl;
 		}
 		else
 		{
