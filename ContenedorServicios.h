@@ -1,8 +1,7 @@
 
 #pragma once
-#include "Libreria.h"
-#include "Servicio.h"
-#include "Citas.h"
+#include "Librerias.h"
+#include "Servicios.h"
 class ContenedorServicios
 {
 private:
