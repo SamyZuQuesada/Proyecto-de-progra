@@ -66,9 +66,43 @@ public:
 
                     if (medicos->getCodigo() == codigoMedico) { //si el codigo ya registrado se parece al codigo medco ya ingresado hace los siguiente...
                         //comprobar disponibilidad
-                        medicos->getDisponibilidad();
-                        if (!medicos->getDisponibilidad()) {
-                            cout << "Disponibilidad: " << (disponibilidad ? "Disponible" : "No disponible") << endl;
+                        medicos->getDisponibilidadParaCita();
+                        if (!medicos->getDisponibilidadParaCita()) {//si disponibilidad es true, entonces no se ejecuta este bloque, pero si su else
+                            cout << "Este medico no se encuentra disponible" << endl;
+
+                            int opcion = 0;
+                            do {
+                            cout << "1. Ingresar otro medico" << endl;
+                            cout << "2. Cancelar solicitud" << endl;
+                            cout << "Ingresar una opcion: "; cin >> opcion;
+
+                            switch (opcion) {
+                            case 1: {
+                                cout << "Ingrese un medico: "; cin >> codigoMedico
+                                    if (medicos->getCodigo() == codigoMedico) { //si el codigo ya registrado se parece al codigo medco ya ingresado hace los siguiente...
+                                        //comprobar disponibilidad
+                                        medicos->getDisponibilidadParaCita();
+                                        if (!medicos->getDisponibilidadParaCita()) {//si disponibilidad es true,  entonces no se ejecuta este bloque, pero si su else
+                                            cout << "Este medico no se encuentra disponible" << endl;
+                                        }
+                                        else {
+                                            cout << "El medico se encuetra disponible para agendar" << endl;
+                                            break;
+                                        }
+                                    }
+                                break;
+                            }
+                            case 2: {
+                                cout << "volviendo al menu..." << endl;
+                                system("pause");
+                                system("cls");
+                                return;
+                            }
+                            }
+                            }while(opcion != 2);
+                        }
+                        else {//si el medico no se encuentra disponible...
+                            cout << "El medico se encuetra disponible para agendar" << endl;
                         }
                         break;
                     }
