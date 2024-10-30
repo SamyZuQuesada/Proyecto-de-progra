@@ -1,4 +1,5 @@
 
+
 #pragma once
 #include "Librerias.h"
 #include "Servicios.h"
@@ -10,10 +11,10 @@ private:
 public:
 	void setRegistrarServicio()
 	{
-		int codigo=0;
+		int codigo = 0;
 		string descripcion;
-		float costo=0;
-		bool disponibilidad=true;
+		float costo = 0;
+		bool disponibilidad = true;
 
 		//llamar archivo txt.servicios para que antes de registrar un nuevo servicio carguen los datos del archivo ya anteriormente registrados y guardados
 		recuperarArchivo();
@@ -29,20 +30,20 @@ public:
 		}
 
 		for (int i = 0; i < listaServicios.size(); i++) {
-			if (listaServicios[i]->getCodigo() == codigo) { //se compara codigo, si este se repite imprimira que ya existe un servicio con este mismo codigo.
+			if (listaServicios[i]->getCodigoServicio() == codigo) { //se compara codigo, si este se repite imprimira que ya existe un servicio con este mismo codigo.
 				cout << "Ya hay un servicio registrado con este codigo." << endl;
 				return;
 			}
 		}
 		cin.ignore();
 		cout << "Ingrese la descripcion del servicio: ";
-		getline(cin,descripcion);
+		getline(cin, descripcion);
 		cout << "Ingrese el costo del servicio: ";
 		cin >> costo;
-		
+
 
 		// Validaciones para verificar que no se ingresen campos vacios.
-		if (codigo<=0 || descripcion.empty() || costo<=0)
+		if (codigo <= 0 || descripcion.empty() || costo <= 0)
 		{
 			cout << "No se permiten campos vacios o en negativo" << endl;
 			return;
@@ -55,14 +56,14 @@ public:
 
 		for (int i = 0; i < listaServicios.size(); i++)
 		{
-			listaServicios[i]->getmostrarServicios();
+			listaServicios[i]->getMostrarDatos();
 
 		}
-		
+
 	}
 	void getModificarServicio()
 	{
-		int codigo,cuenta=0;
+		int codigo, cuenta = 0;
 		string Nuevadescripcion;
 		float Nuevocosto;
 		bool Nuevadisponibilidad;
@@ -75,7 +76,7 @@ public:
 		}
 		for (int i = 0; i < listaServicios.size(); i++)
 		{
-			if (listaServicios[i]->getCodigo() == codigo)
+			if (listaServicios[i]->getCodigoServicio() == codigo)
 			{ //se verifica si el codigo existe
 
 
@@ -108,7 +109,7 @@ public:
 				}
 
 				for (int i = 0; i < listaServicios.size(); i++) {
-					if (listaServicios[i]->getCodigo() == codigo) {
+					if (listaServicios[i]->getCodigoServicio() == codigo) {
 						listaServicios[i]->setDescripcion(Nuevadescripcion);
 						listaServicios[i]->setCosto(Nuevocosto);
 						listaServicios[i]->setDisponibilidad(Nuevadisponibilidad);
@@ -121,7 +122,7 @@ public:
 
 				for (int i = 0; i < listaServicios.size(); i++)
 				{
-					listaServicios[i]->getmostrarServicios();
+					listaServicios[i]->getMostrarDatos();
 
 				}
 				cuenta = 1;
@@ -136,7 +137,7 @@ public:
 		{
 			cout << "----------------------------------" << endl;
 			cout << "Servicio #" << i << ":" << endl;
-			listaServicios[i]->getmostrarServicios();
+			listaServicios[i]->getMostrarDatos();
 			cout << ".                                 ." << endl;
 		}
 	}
@@ -149,7 +150,7 @@ public:
 			{
 				//almacena la informacion
 				cout << "........................................................" << endl;
-				archivo << listaServicios[i]->getCodigo()
+				archivo << listaServicios[i]->getCodigoServicio()
 					<< "-" << listaServicios[i]->getDescripcion()
 					<< "-" << listaServicios[i]->getCosto()
 					<< "-" << listaServicios[i]->getDisponibilidad()
@@ -176,7 +177,7 @@ public:
 			while (getline(archivo, linea))
 			{
 				stringstream ss(linea);
-				string codigo, descripcion,costo , disponibilidad;
+				string codigo, descripcion, costo, disponibilidad;
 
 				getline(ss, codigo, '-');
 				int _codigo = stoi(codigo);
@@ -207,8 +208,8 @@ public:
 	{
 
 	}
-	
-	
+
+
 
 	void menuServicios()
 	{
@@ -276,7 +277,7 @@ public:
 			}
 		} while (opcion != 7);
 
-		
+
 	}
 
 
