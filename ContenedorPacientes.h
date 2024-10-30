@@ -153,22 +153,23 @@ public:
 
 
 	void setMostrarListaPacientes()
-	{
+{
 
-		if (listaPacientes.empty())
-		{
-			cout << "No hay datos para mostrar..." << endl;
-			return;
-		}else
-		{
-			cout << ".............. Lista de Pacientes .............." << endl;
-			for (int i = 0; i < listaPacientes.size(); i++) {
-				listaPacientes[i]->getMostrarDatos();
-				cout << "................................................" << endl;
-				cout << "Total de pacientes registrados: " << listaPacientes.size() << endl;
-			}
+	if (listaPacientes.empty())
+	{
+		cout << "No hay datos para mostrar..." << endl;
+		return;
+	}
+	else
+	{
+		cout << ".............. Lista de Pacientes .............." << endl;
+		for (int i = 0; i < listaPacientes.size(); i++) {
+			listaPacientes[i]->getMostrarDatos();
 		}
 	}
+	cout << "................................................" << endl;
+	cout << "Total de pacientes registrados: " << listaPacientes.size() << endl;
+}
 
 	void guardarArchivo()
 	{
