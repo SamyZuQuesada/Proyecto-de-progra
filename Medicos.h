@@ -13,7 +13,7 @@ private:
 
 
 public:
-	Medicos(int _cedula, string _nombre, string _telefono, string _correo,int _codigo, bool _disponibilidad) : Persona(_cedula, _nombre, _telefono, _correo)
+	Medicos(int _cedula, string _nombre, int _telefono, string _correo,int _codigo, bool _disponibilidad) : Persona(_cedula, _nombre, _telefono, _correo)
 	{
 		this->codigo = _codigo;
 		this->disponibilidad = _disponibilidad;
