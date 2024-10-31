@@ -65,8 +65,9 @@ public:
 				{
 					if (listaMedicos[i]->getCodigo() == codigo) { //se compara codigo, si este se repite imprimira que ya existe un medico con este mismo codigo 
 						cout << "Ya hay un medico registrado con este codigo." << endl;
+						return;
 					}
-				} return;
+				} 
 			}
 			
 
