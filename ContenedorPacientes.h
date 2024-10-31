@@ -1,4 +1,3 @@
-
 #pragma once
 #include "Librerias.h"
 #include "Persona.h"
@@ -22,8 +21,8 @@ public:
 
 	void setRegistrarPaciente()
 	{
-		int cedula;
-		string nombre, telefono, correo, apellido, fechaRegistro;
+		int cedula, telefono;
+		string nombre, correo, apellido, fechaRegistro;
 
 
 		cout << "Ingrese la cedula del paciente: ";
@@ -35,7 +34,6 @@ public:
 			cout << "Cedula no valida, ingrese un numero positivo de hasta 10 digitos " << endl;
 			return;
 		}
-		else {
 			for (int i = 0; i < listaPacientes.size(); i++)
 			{
 				if (listaPacientes[i]->getCedula() == cedula)
@@ -44,8 +42,8 @@ public:
 					return;
 				}
 			}
-			do {
 				cin.ignore();
+				do{
 
 				cout << "Ingrese el nombre del paciente: ";
 				getline(cin, nombre);
@@ -54,7 +52,9 @@ public:
 				getline(cin, apellido);
 
 				cout << "Ingrese el telefono del paciente: ";
-				getline(cin, telefono);
+				cin >> telefono;
+				
+				cin.ignore();
 
 				cout << "Ingrese el correo del paciente: ";
 				getline(cin, correo);
@@ -62,12 +62,12 @@ public:
 				cout << "Ingrese la fecha de registro del paciente: ";
 				getline(cin, fechaRegistro);
 
-				if (nombre.empty() || apellido.empty() || telefono.empty() || correo.empty() || fechaRegistro.empty())
+				if ((cedula <=0) || nombre.empty() || apellido.empty() || (telefono <=0 ) || correo.empty() || fechaRegistro.empty())
 				{
 					cout << "No se permiten campos vacios" << endl;
 					return;
 				}
-			} while (nombre.empty() || apellido.empty() || telefono.empty() || correo.empty() || fechaRegistro.empty());
+				} while ((cedula <= 0) || nombre.empty() || apellido.empty() || (telefono <= 0) || correo.empty() || fechaRegistro.empty());
 
 
 			Pacientes* newPaciente = new Pacientes(cedula, nombre, telefono, correo, apellido, fechaRegistro);
@@ -82,48 +82,57 @@ public:
 			}
 			cout << "............................................................" << endl;
 		}
-	}
 
 	void setModificarPacientes()
 	{
-		int cedula;
-		bool buscar = false;
-		string nombre, telefono, correo, apellido, fechaRegistro;
+		int cedula, telefono;
+		string nombre, correo, apellido, fechaRegistro;
 
 		if (listaPacientes.empty())
 		{
 			cout << "No hay datos que mostrar... Agrega un paciente para actualizar.. " << endl;
 		}
 
+		cout << "Ingrese su numero de cedula" << endl;
+		cin >> cedula;
+		cin.ignore();
+
+		if (cedula < 0 || cedula > 2222222222)
+		{
+			cout << "Cedula no valida, ingrese un numero positivo de hasta 10 digitos " << endl;
+			return;
+		}
+
+
+
 		else
 		{
-			cout << "Ingrese el numero de cedula del paciente: ";
-			cin >> cedula;
-
-			for (int i = 0; i < listaPacientes.size(); i++) {
-				if (listaPacientes[i]->getCedula() == cedula)
+			for (int i = 0; i < listaPacientes.size(); i++)
+			{
+				if (listaPacientes[i]->getCedula() == cedula) // se verifica que la cedula ingresada por el usuario coincida con la cedula del medico ya existente
 				{
-					buscar = true;
 
 					cin.ignore();
 
-					cout << "Ingrese el nombre del paciente: ";
+					cout << "Ingrese el nombre del paciente: " << endl;
 					getline(cin, nombre);
 
-					cout << "Ingrese el apellido del paciente: ";
+					cout << "Ingrese el apellido del paciente: " << endl;
 					getline(cin, apellido);
 
-					cout << "Ingrese el telefono del paciente: ";
-					getline(cin, telefono);
+					cout << "Ingrese el telefono del paciente: " << endl;
+					cin >> telefono;
 
-					cout << "Ingrese el correo del paciente: ";
+					cin.ignore();
+
+					cout << "Ingrese el correo del paciente: " << endl;
 					getline(cin, correo);
 
-					cout << "Ingrese la fecha de registro del paciente: ";
+					cout << "Ingrese la fecha de registro del paciente: " << endl;
 					getline(cin, fechaRegistro);
 
 
-					if (nombre.empty() || apellido.empty() || telefono.empty() || correo.empty() || fechaRegistro.empty())
+					if ((cedula <= 0) || nombre.empty() || apellido.empty() || (telefono <=0) || correo.empty() || fechaRegistro.empty())
 					{
 						cout << "No se permiten campos vacios" << endl;
 						return;
@@ -136,31 +145,26 @@ public:
 					listaPacientes[i]->setCorreo(correo);
 					listaPacientes[i]->setFechaRegistro(fechaRegistro);
 
-					cout << "Paciente modificado con éxito!" << endl;
-					listaPacientes[i]->getMostrarDatos();
+					cout << "Paciente modificado con exito!" << endl;
+			
+					cout << "............. Lista de pacientes registrados................." << endl;
+					for (int i = 0; i < listaPacientes.size(); i++)
+					{
 
+						listaPacientes[i]->getMostrarDatos();
+					}
+					cout << "............................................................" << endl;
+					return;
 				}
 			}
-			if (!buscar)
-			{
-				cout << "No se ha registrado un paciente con ese numero de cedula..." << endl;
 
-			}
-			cout << "............. Lista de pacientes registrados................." << endl;
-			for (int i = 0; i < listaPacientes.size(); i++)
-			{
-
-				listaPacientes[i]->getMostrarDatos();
-			}
-			cout << "............................................................" << endl;
-
-			cout << "No existe un medico con esa cedula" << endl;
+			cout << "No existe un paciente registrado con esa cedula" << endl;
 		}
 
 	}
 
 
-	void setMostrarListaPacientes()
+	void consultarPaciente()
 	{
 
 		if (listaPacientes.empty())
@@ -173,10 +177,10 @@ public:
 			cout << ".............. Lista de Pacientes .............." << endl;
 			for (int i = 0; i < listaPacientes.size(); i++) {
 				listaPacientes[i]->getMostrarDatos();
-				cout << "................................................" << endl;
+
+			}//fin del for
+		} //fin del else
 				cout << "Total de pacientes registrados: " << listaPacientes.size() << endl;
-			}
-		}
 	}
 
 	void guardarArchivo()
@@ -225,12 +229,13 @@ public:
 				getline(ss, apellido, '-');
 
 				getline(ss, telefono, '-');
+				int _telefono = stoi(telefono);
 
 				getline(ss, correo, '-');
 
 				getline(ss, fechaRegistro, '-');
 
-				Pacientes* paciente = new Pacientes(_cedula, nombre, telefono, correo, apellido, fechaRegistro);
+				Pacientes* paciente = new Pacientes(_cedula, nombre, _telefono, correo, apellido, fechaRegistro);
 				listaPacientes.push_back(paciente);
 			}
 			archivo.close();
@@ -277,7 +282,7 @@ public:
 			}
 			case 3:
 			{
-				setMostrarListaPacientes();
+				consultarPaciente();
 				system("pause");
 				break;
 			}
