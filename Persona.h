@@ -6,12 +6,12 @@ class Persona
 protected:
 	int cedula;
 	string nombre;
-	string telefono;
+	int telefono;
 	string correo;
 	
 	
 public:
-	Persona(int _cedula, string _nombre, string _telefono, string _correo)
+	Persona(int _cedula, string _nombre, int _telefono, string _correo)
 	{
 		this->cedula = _cedula;
 		this->nombre = _nombre;
@@ -43,11 +43,11 @@ public:
 		return this->nombre;
 	}
 
-	void setTelefono(string _telefono)
+	void setTelefono(int _telefono)
 	{
 		this->telefono = _telefono;
 	}
-	string getTelefono() const
+	int getTelefono() const
 	{
 		return this->telefono;
 	}
