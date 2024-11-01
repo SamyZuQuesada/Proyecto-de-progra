@@ -74,6 +74,8 @@ public:
 		listaPacientes.push_back(newPaciente);
 
 		cout << "Paciente registrado con exito!!" << endl;
+		
+		system("cls");
 
 		cout << "............. Lista de pacientes registrados................." << endl;
 		for (int i = 0; i < listaPacientes.size(); i++)
@@ -143,6 +145,7 @@ public:
 				listaPacientes[i]->setFechaRegistro(fechaRegistro);
 
 				cout << "¡Paciente modificado con éxito!" << endl;
+				system("cls");
 
 				cout << "............. Lista de pacientes registrados................." << endl;
 				for (int j = 0; j < listaPacientes.size(); j++)
@@ -175,14 +178,14 @@ public:
 		cout << "2. Para buscar pacientes por fecha de registro" << endl;
 		cout << "Digite una opcion: ";
 		cin >> opcion;
-		cin.ignore();
 
 		switch (opcion)
 		{
 		case 1:
 		{
+			system("cls");
 			cout << ".............. Lista de Pacientes .............." << endl;
-			for (int i = 0; i < listaPacientes.size(); i++) 
+			for (int i = 0; i < listaPacientes.size(); i++)
 			{
 				listaPacientes[i]->getMostrarDatos();
 			}//fin del for
@@ -194,11 +197,14 @@ public:
 		case 2:
 		{
 			string fechaBusqueda;
-			bool encontrado = false; 
-			int contador = 0; 
+			bool encontrado = false;
+			int contador = 0;
 
-			cout << "Ingrese la fecha de registro que desea buscar (Formato: DD/MM/AAAA): ";
+			cin.ignore();
+            cout << "Ingrese la fecha de registro que desea buscar (Formato: DD/MM/AAAA): ";
 			getline(cin, fechaBusqueda);
+
+			system("cls");
 
 			cout << "............. Pacientes registrados el " << fechaBusqueda << " ................." << endl;
 
@@ -207,14 +213,15 @@ public:
 				if (listaPacientes[i]->getFechaRegistro() == fechaBusqueda)
 				{
 					listaPacientes[i]->getMostrarDatos();  // Mostrar los datos del paciente
-					encontrado = true; 
-					contador++; 
+					encontrado = true;
+					contador++;
 				}
 			}
 
 			if (!encontrado)
 			{
 				cout << "No se encontraron pacientes registrados en esa fecha..." << endl;
+
 			}
 			else
 			{
@@ -228,7 +235,7 @@ public:
 		{
 			cout << "Opcion no valida, intentelo de nuevo..." << endl;
 			break;
-			}
+		}
 		}
 	}
 
@@ -248,7 +255,8 @@ public:
 					<< endl;
 			}
 			archivo.close();
-			cout << "Paciente fue guardado correctamente....";
+			cout << "Paciente fue guardado correctamente..." << endl;
+			return;
 		}
 		else
 		{
@@ -289,6 +297,7 @@ public:
 			}
 			archivo.close();
 			cout << "Datos cargados correctamente..." << endl;
+			return;
 		}
 		else
 		{
@@ -318,7 +327,6 @@ public:
 			{
 			case 1:
 			{
-				recuperarArchivos();
 				setRegistrarPaciente();
 				system("pause");
 				break;
