@@ -10,20 +10,20 @@ class Clinica
 
 private:
 
-	string nombreClinica;
+	string nombreClinia;
 	string direccionClinica;
 	string especialidades;
 	string correoClinica;
-	string telefonoClinica;
+	int telefonoClinica;
 
 public:
-	Clinica()
+	Clinica()//Constructor que no recibe por parametros.
 	{
-		this->nombreClinica = "Clinica San Quantum Code";
+		this->nombreClinia = "Clinica San Quantum Code";
 		this->direccionClinica = "Nicoya, Guanacaste";
 		this->especialidades = "Medicina General, Odontologia, Nutricion, Pediadria, Psicologia";
 		this->correoClinica = "santaquantumcode@hotmail.com";
-		this->telefonoClinica = 2685-5314;
+		this->telefonoClinica = 26855314;
 	}
 
 	void menuClinica()
@@ -34,7 +34,11 @@ public:
 		ContenedorServicios contenedorServicios;
 		ContenedorMedicos contenedorMedicos;
 		ContenedorPacientes contenedorPacientes;
-		ContenedorCitas contenedorCitas;
+		contenedorServicios.recuperarArchivo();
+		contenedorMedicos.recuperarArchivo();
+		contenedorPacientes.recuperarArchivos();
+		ContenedorCitas contenedorCitas(&contenedorMedicos, &contenedorPacientes, &contenedorServicios);
+		system("cls");
 
 		do
 		{
@@ -75,6 +79,7 @@ public:
 
 			case 1:
 			{
+				contenedorServicios.recuperarArchivo();
 				contenedorServicios.menuServicios();
 				system("pause");
 				break;
@@ -82,13 +87,15 @@ public:
 
 			case 2:
 			{
-				contenedorMedicos.MenuMedicos();
+				contenedorMedicos.recuperarArchivo();
+				contenedorMedicos.menuMedicos();
 				system("pause");
 				break;
 			}
 
 			case 3:
 			{
+				contenedorPacientes.recuperarArchivos();
 				contenedorPacientes.menuPacientes();
 				system("pause");
 				break;
@@ -96,7 +103,7 @@ public:
 
 			case 4:
 			{
-				//contenedorCitas.MenuCitas();
+				contenedorCitas.menuCitas();
 				system("pause");
 				break;
 			}
@@ -118,12 +125,13 @@ public:
 					cout << "Estamos ubicados en: Nicoya, Guanacaste " << endl;
 					cout << "Nuestro correo es: sanquantumcode@hotmail.com" << endl;
 					cout << "Recordar que brindamos nuestros servicios de: Medicina General, Odontologia, Nutricion, Pediadria, Psicologia" << endl;
-					cout << "Nuestro numero telefonico es: 2685-5314" << endl;
+					cout << "Nuestro numero telefonico es: 26855314" << endl;
 					cout << "¡Clinica San Quantum Code le agradace por confiar en nosotros! " << endl;
 					cout << "!LO ESPERAMOS PRONTO!" << endl;
 					system("pause");
 				}
-				else if (opcionSalir == 0) {
+				else if (opcionSalir == 0)
+				{
 
 					cout << "¡GRACIAS POR CONTINUAR EN NUESTRO MENU!" << endl;
 					system("pause");
