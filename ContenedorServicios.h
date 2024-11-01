@@ -2,17 +2,26 @@
 #include "Librerias.h"
 #include "Servicios.h"
 #include "Citas.h"
+#include "ContenedorCitas.h"
+
+
+
 class ContenedorServicios
 {
 private:
 	vector<Servicios*> listaServicios;
 
 public:
+
+	const vector<Servicios*>& getListaServicios() const
+	{
+		return listaServicios;
+	}
 	void setRegistrarServicio()
 	{
-		int codigo = 0;
+		int codigoServicio = 0;
 		string descripcion;
-		float costo = 0;
+		float costoServicio = 0;
 		bool disponibilidad = true;
 
 		//llamar archivo txt.servicios para que antes de registrar un nuevo servicio carguen los datos del archivo ya anteriormente registrados y guardados
@@ -20,16 +29,16 @@ public:
 
 
 		cout << "Ingrese el codigo del servicio: ";
-		cin >> codigo;
+		cin >> codigoServicio;
 
-		if (codigo < 0) //se valida que el codigo sea un numero positivo.
+		if (codigoServicio < 0) //se valida que el codigo sea un numero positivo.
 		{
 			cout << "Codigo no valido, ingrese un numero positivo " << endl;
 			return;
 		}
 
 		for (int i = 0; i < listaServicios.size(); i++) {
-			if (listaServicios[i]->getCodigo() == codigo) { //se compara codigo, si este se repite imprimira que ya existe un servicio con este mismo codigo.
+			if (listaServicios[i]->getCodigoServicio() == codigoServicio) { //se compara codigo, si este se repite imprimira que ya existe un servicio con este mismo codigo.
 				cout << "Ya hay un servicio registrado con este codigo." << endl;
 				return;
 			}
@@ -41,23 +50,26 @@ public:
 		cout << "Ingrese la descripcion del servicio: ";
 		getline(cin, descripcion);
 		cout << "Ingrese el costo del servicio: ";
-		cin >> costo;
+		cin >> costoServicio;
+
 
 		cout << "Disponibilidad del servicio: 1= disponible, 0= no disponible): " << endl;
 		cin >> disponibilidad;
 
 		// Validaciones para verificar que no se ingresen campos vacios.
-		if (codigo <= 0 || descripcion.empty() || costo <= 0)
+		if (codigoServicio <= 0 || descripcion.empty() || costoServicio <= 0)
 		{
 			cout << "No se permiten campos vacios o en negativo" << endl;
 			return;
 		}
-		} while (codigo <= 0 || descripcion.empty() || costo <= 0);
+		} while (codigoServicio <= 0 || descripcion.empty() || costoServicio <= 0);
 
-		Servicios* newServicio = new Servicios(codigo, descripcion, costo, disponibilidad);
+		Servicios* newServicio = new Servicios(codigoServicio, descripcion, costoServicio, disponibilidad);
 		listaServicios.push_back(newServicio); //se agrega el nuevo servicio al vector de servicios.
 
 		cout << "Servicio registrado con exito" << endl;
+
+		system("cls");
 
 		cout << "............. Lista de servicios registrados................." << endl;
 
@@ -71,7 +83,7 @@ public:
 	}
 	void getModificarServicio()
 	{
-		int codigo;
+		int codigoServicio;
 		string Nuevadescripcion;
 		float Nuevocosto;
 		bool Nuevadisponibilidad;
@@ -83,16 +95,16 @@ public:
 		}
 
 		cout << "Ingrese su numero de codigo" << endl;
-		cin >> codigo;
+		cin >> codigoServicio;
 		cin.ignore();
 		
-		if (codigo < 0) {
+		if (codigoServicio < 0) {
 			cout << "Codigo no valido, ingrese un numero positivo." << endl;
 			return;
 		}else {
            for (int i = 0; i < listaServicios.size(); i++)
 		   {
-			if (listaServicios[i]->getCodigo() == codigo)
+			if (listaServicios[i]->getCodigoServicio() == codigoServicio)
 			{ //se verifica si el codigo existe
 
 
@@ -113,16 +125,18 @@ public:
 				cin >> Nuevadisponibilidad;
 		
                 
-				if (codigo < 0 || Nuevadescripcion.empty() || Nuevocosto < 0)
+				if (codigoServicio < 0 || Nuevadescripcion.empty() || Nuevocosto < 0)
 				{
 					cout << "No se permiten campos vacios" << endl;
 					return;
 				}
 
 						listaServicios[i]->setDescripcion(Nuevadescripcion);
-						listaServicios[i]->setCosto(Nuevocosto);
+						listaServicios[i]->setCostoServicio(Nuevocosto);
 						listaServicios[i]->setDisponibilidad(Nuevadisponibilidad);
 						cout << "Servicio modificado con exito" << endl;
+
+						system("cls");
 
 						cout << "............. Lista de servicios registrados................." << endl;
 						for (int i = 0; i < listaServicios.size(); i++)
@@ -141,6 +155,8 @@ public:
 		}
 	void consultarServicios()
 	{
+		
+		int serviciosTotal = 0;
 		int disponibilidad = 0;
 
 		cout << "................Lista de servicios registrados................ " << endl;
@@ -152,15 +168,16 @@ public:
 		{
 			for (int i = 0; i < listaServicios.size(); i++)
 			{
-				listaServicios[i]->getMostrarServicios();
-				cout << "........................................................." << endl;
+				//llamara contenedor cita para mostrar las citas
 
-				if (listaServicios[i]->getDisponibilidad()) 
-				{
-					disponibilidad++;
-				}
+			cout << "........................................................." << endl;
+
+			if (listaServicios[i]->getDisponibilidad())
+			{
+				disponibilidad++;
 			}
 		}
+	}
 		cout << "..............................................." << endl;
 		cout << "Total de servicios registrados: " << listaServicios.size() << endl;
 		cout << "Servicios disponibles: " << disponibilidad << endl;
@@ -176,9 +193,9 @@ public:
 			{
 				//almacena la informacion
 				cout << "........................................................" << endl;
-				archivo << listaServicios[i]->getCodigo()
+				archivo << listaServicios[i]->getCodigoServicio()
 					<< "-" << listaServicios[i]->getDescripcion()
-					<< "-" << listaServicios[i]->getCosto()
+					<< "-" << listaServicios[i]->getCostoServicio()
 					<< "-" << listaServicios[i]->getDisponibilidad()
 					<< endl;
 				cout << "........................................................." << endl;
@@ -203,23 +220,23 @@ public:
 			while (getline(archivo, linea))
 			{
 				stringstream ss(linea);
-				string codigo, descripcion, costo, disponibilidad;
+				string codigoServicio, descripcion, costoServicio, disponibilidad;
 
-				getline(ss, codigo, '-');
-				int _codigo = stoi(codigo);
+				getline(ss, codigoServicio, '-');
+				int _codigoServicio = stoi(codigoServicio);
 
 				getline(ss, descripcion, '-');
 
-				getline(ss, costo, '-');
+				getline(ss, costoServicio, '-');
 
-				float _costo = stof(costo);
+				float _costoServicio = stof(costoServicio);
 
 				getline(ss, disponibilidad, '-');
 
 				bool _disponibilidad = (disponibilidad == "1");
 
 
-				Servicios* nuevoServicio = new Servicios(_codigo, descripcion, _costo, _disponibilidad);
+				Servicios* nuevoServicio = new Servicios(_codigoServicio, descripcion, _costoServicio, _disponibilidad);
 				listaServicios.push_back(nuevoServicio);
 			}
 			archivo.close();
@@ -230,18 +247,48 @@ public:
 			cout << "No se pudo abrir el archivo" << endl;
 		}
 	}
-	/*void getConsultarCitaEspecifica()
+	
+	
+	
+	void getConsultarCitaEspecifica()
 	{
+		int codigoServicio;
+		bool encontrado = false;
 
-	}*/
+		cout << "Ingrese el codigo del servicio que desea consultar: ";
+	    cin >> codigoServicio;
+		
+		system("cls");
 
+		cout << ".........Cita medica registrada con el numero de servicio " << codigoServicio << "........." << endl;
 
+		for (int i = 0; i < listaServicios.size(); i++)
+		{
+			if (listaServicios[i]->getCodigoServicio() == codigoServicio)
+			{
+				cout << "Servicio encontrado!" << endl;
+			
+               encontrado = true;
+				break;
+			}
+		}
+		if (!encontrado)
+		{
+			cout << "No se encontro el servicio" << endl;
+		}
+		cout << "..............................................." << endl;
+		
+	}
+		
+		
+		
 
 	void menuServicios()
 	{
 		system("cls");
 		int opcion;
 		do {
+
 			system("cls");
 			cout << "......................Menu Servicios..............." << endl;
 			cout << "1. Registrar nuevo servicio" << endl;
@@ -290,7 +337,13 @@ public:
 			}
 			case 6:
 			{
-				/*getConsultarCitaEspecifica();*/
+				getConsultarCitaEspecifica();
+				system("pause");
+				break;
+			}
+			case 7:
+			{
+				cout << "Regresando al menu principal..." << endl;
 				system("pause");
 				break;
 			}
@@ -301,7 +354,8 @@ public:
 				break;
 			}
 			}
-		} while (opcion != 6);
+		
+		} while (opcion != 7);
 
 
 	}
