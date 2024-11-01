@@ -20,32 +20,25 @@ private:
     int contadorConsecutivo = 1;
 
 public:
-
     ContenedorCitas() = default;
 
-    ContenedorCitas(ContenedorMedicos* contenedorMedicos, ContenedorPacientes* contenedorPacientes, ContenedorServicios* contenedorServicios)
-    {
+    ContenedorCitas(ContenedorMedicos* contenedorMedicos, ContenedorPacientes* contenedorPacientes, ContenedorServicios* contenedorServicios) {
         this->contenedorMedicos = contenedorMedicos;
         this->contenedorPacientes = contenedorPacientes;
         this->contenedorServicios = contenedorServicios;
     }
 
-    // Destructor para liberar memoria
-    ~ContenedorCitas()
-    {
-        for (auto cita : listaCitas)
-        {
+    ~ContenedorCitas() {
+        for (auto cita : listaCitas) {
             delete cita;
         }
     }
 
-    const vector<Citas*>& getListaCitas() const
-    {
+    const vector<Citas*>& getListaCitas() const {
         return listaCitas;
     }
 
-    void setAgendarCita()
-    {
+    void setAgendarCita() {
         int numeroCita, cedulaUsuario, codigoMedico, codigoServicio;
         string fecha;
         float costoTotal = 0;
@@ -54,28 +47,23 @@ public:
         cout << "Digite la cedula del paciente: ";
         cin >> cedulaUsuario;
 
-        if (!validarPaciente(cedulaUsuario))
-        {
+        if (!validarPaciente(cedulaUsuario)) {
             int opcionPaciente;
             cout << "El paciente no se encuentra registrado en el sistema\nDesea agregarlo al sistema?\n1- SI\n0- NO\n";
             cin >> opcionPaciente;
-            if (opcionPaciente == 1)
-            {
+            if (opcionPaciente == 1) {
                 contenedorPacientes->setRegistrarPaciente();
                 system("pause");
             }
-            else if (opcionPaciente == 0)
-            {
+            else if (opcionPaciente == 0) {
                 cout << "Volviendo al menu...\n";
                 return;
             }
-            else
-            {
+            else {
                 cout << "Opcion no valida\n";
             }
         }
-        else
-        {
+        else {
             cout << "El paciente ya se encuentra registrado en el sistema!\n";
             contenedorPacientes->consultarPaciente();
         }
@@ -83,82 +71,67 @@ public:
         cout << "Digite el codigo del servicio: ";
         cin >> codigoServicio;
 
-        if (!validarServicio(codigoServicio))
-        {
+        if (!validarServicio(codigoServicio)) {
             int opcionServicio;
             cout << "El servicio no se encuentra registrado en el sistema\nDesea agregarlo al sistema?\n1- SI\n0- NO\n";
             cin >> opcionServicio;
-            if (opcionServicio == 1)
-            {
+            if (opcionServicio == 1) {
                 contenedorServicios->setRegistrarServicio();
                 system("pause");
             }
-            else if (opcionServicio == 0)
-            {
+            else if (opcionServicio == 0) {
                 cout << "Volviendo al menu...\n";
                 return;
             }
-            else
-            {
+            else {
                 cout << "Opcion no valida\n";
             }
         }
-        else
-        {
+        else {
             cout << "El servicio ya se encuentra registrado en el sistema!\n";
             contenedorServicios->consultarServicios();
         }
 
         cout << "Digite el codigo del medico: ";
         cin >> codigoMedico;
-        if (!validarMedico(codigoMedico))
-        {
+        if (!validarMedico(codigoMedico)) {
             int opcionMedico;
             cout << "El medico no se encuentra registrado en el sistema\nDesea agregarlo al sistema?\n1- SI\n0- NO\n";
             cin >> opcionMedico;
-            if (opcionMedico == 1)
-            {
+            if (opcionMedico == 1) {
                 contenedorMedicos->setRegistrarMedico();
                 system("pause");
             }
-            else if (opcionMedico == 0)
-            {
+            else if (opcionMedico == 0) {
                 cout << "Volviendo al menu...\n";
                 return;
             }
-            else
-            {
+            else {
                 cout << "Opcion no valida\n";
             }
         }
-        else
-        {
+        else {
             cout << "El medico ya se encuentra registrado en el sistema!\n";
             contenedorMedicos->consultarMedicos();
         }
 
         cout << "Digite el numero de cita: ";
         cin >> numeroCita;
-        for (size_t i = 0; i < listaCitas.size(); i++)
-        {
-            if (numeroCita == listaCitas[i]->getNumeroCita())
-            {
+        for (size_t i = 0; i < listaCitas.size(); i++) {
+            if (numeroCita == listaCitas[i]->getNumeroCita()) {
                 cout << "El numero de cita ya existe\n";
                 citaExiste = true;
                 system("pause");
                 return;
             }
         }
-        if (!citaExiste)
-        {
-            do
-            {
+        if (!citaExiste) {
+            do {
                 cout << "Digite la fecha de la cita: ";
                 cin.ignore();
                 getline(cin, fecha);
 
-                if (fecha.empty())
-                {
+                if (fecha.empty()) {
                     cout << "No se permiten campos vacios, intentelo de nuevo\n";
                 }
             } while (fecha.empty());
@@ -169,50 +142,39 @@ public:
         }
     }
 
-    bool validarPaciente(int cedulaUsuario)
-    {
-        for (size_t i = 0; i < contenedorPacientes->getListaPacientes().size(); i++)
-        {
-            if (cedulaUsuario == contenedorPacientes->getListaPacientes()[i]->getCedula())
-            {
+    bool validarPaciente(int cedulaUsuario) {
+        for (size_t i = 0; i < contenedorPacientes->getListaPacientes().size(); i++) {
+            if (cedulaUsuario == contenedorPacientes->getListaPacientes()[i]->getCedula()) {
                 return true;
             }
         }
         return false;
     }
 
-    bool validarMedico(int codigoMedico)
-    {
-        for (size_t i = 0; i < contenedorMedicos->getListaMedicos().size(); i++)
-        {
-            if (codigoMedico == contenedorMedicos->getListaMedicos()[i]->getCodigo())
-            {
+    bool validarMedico(int codigoMedico) {
+        for (size_t i = 0; i < contenedorMedicos->getListaMedicos().size(); i++) {
+            if (codigoMedico == contenedorMedicos->getListaMedicos()[i]->getCodigo()) {
                 return true;
             }
         }
         return false;
     }
 
-    bool validarServicio(int codigoServicio)
-    {
-        for (size_t i = 0; i < contenedorServicios->getListaServicios().size(); i++)
-        {
-            if (codigoServicio == contenedorServicios->getListaServicios()[i]->getCodigoServicio())
-            {
+    bool validarServicio(int codigoServicio) {
+        for (size_t i = 0; i < contenedorServicios->getListaServicios().size(); i++) {
+            if (codigoServicio == contenedorServicios->getListaServicios()[i]->getCodigo()) {
                 return true;
             }
         }
         return false;
     }
 
-    void getModificarCitas()
-    {
+    void getModificarCitas() {
         int numeroCita;
         string nuevaFecha;
         bool buscar = false;
 
-        if (listaCitas.empty())
-        {
+        if (listaCitas.empty()) {
             cout << "No hay citas registradas\n";
             return;
         }
@@ -221,16 +183,13 @@ public:
         cin >> numeroCita;
         cin.ignore();
 
-        for (size_t i = 0; i < listaCitas.size(); i++)
-        {
-            if (listaCitas[i]->getNumeroCita() == numeroCita)
-            {
+        for (size_t i = 0; i < listaCitas.size(); i++) {
+            if (listaCitas[i]->getNumeroCita() == numeroCita) {
                 buscar = true;
                 cout << "Ingrese la nueva fecha de la cita: ";
                 getline(cin, nuevaFecha);
 
-                if (nuevaFecha.empty())
-                {
+                if (nuevaFecha.empty()) {
                     cout << "No se permiten campos vacios\n";
                     return;
                 }
@@ -241,14 +200,12 @@ public:
             }
         }
 
-        if (!buscar)
-        {
+        if (!buscar) {
             cout << "No existe una cita con ese numero..\n";
         }
     }
 
-    void getConsultarCitas()
-    {
+    void getConsultarCitas() {
         int opcion;
         bool buscar = false;
 
@@ -257,46 +214,36 @@ public:
         cout << "2. Consultar una cita en especifico\n";
         cin >> opcion;
 
-        if (opcion == 1)
-        {
-            for (size_t i = 0; i < listaCitas.size(); i++)
-            {
+        if (opcion == 1) {
+            for (size_t i = 0; i < listaCitas.size(); i++) {
                 listaCitas[i]->getMostrarDatos();
             }
         }
-        else if (opcion == 2)
-        {
+        else if (opcion == 2) {
             int numeroCita;
             cout << "Ingrese el numero de cita: ";
             cin >> numeroCita;
 
-            for (size_t i = 0; i < listaCitas.size(); i++)
-            {
-                if (listaCitas[i]->getNumeroCita() == numeroCita)
-                {
+            for (size_t i = 0; i < listaCitas.size(); i++) {
+                if (listaCitas[i]->getNumeroCita() == numeroCita) {
                     buscar = true;
                     listaCitas[i]->getMostrarDatos();
                 }
             }
 
-            if (!buscar)
-            {
+            if (!buscar) {
                 cout << "No se ha encontrado una cita con ese numero..\n";
             }
         }
-        else
-        {
+        else {
             cout << "Opcion no valida\n";
         }
     }
 
-    void guardarEnArchivo()
-    {
+    void guardarEnArchivo() {
         ofstream archivo("Citas.txt");
-        if (archivo.is_open())
-        {
-            for (size_t i = 0; i < listaCitas.size(); i++)
-            {
+        if (archivo.is_open()) {
+            for (size_t i = 0; i < listaCitas.size(); i++) {
                 archivo << listaCitas[i]->getNumeroCita() << "-"
                     << listaCitas[i]->getCedulaUsuario() << "-"
                     << listaCitas[i]->getCodigoMedico() << "-"
@@ -307,23 +254,19 @@ public:
             archivo.close();
             cout << "Datos guardados correctamente en el archivo Citas.txt\n";
         }
-        else
-        {
+        else {
             cout << "No se pudo abrir el archivo\n";
         }
     }
 
-    void recuperarArchivos()
-    {
+    void recuperarArchivos() {
         listaCitas.clear();
         ifstream archivo("Citas.txt");
         int ultimoConsecutivo = 0;
 
-        if (archivo.is_open())
-        {
+        if (archivo.is_open()) {
             string linea;
-            while (getline(archivo, linea))
-            {
+            while (getline(archivo, linea)) {
                 stringstream ss(linea);
 
                 int _numeroCita, _cedulaUsuario, _codigoMedico, _codigoServicio;
@@ -348,17 +291,14 @@ public:
             archivo.close();
             cout << "Datos recuperados correctamente\n";
         }
-        else
-        {
+        else {
             cout << "No se pudo abrir el archivo\n";
         }
     }
 
-    void menuCitas()
-    {
+    void menuCitas() {
         int opcion;
-        do
-        {
+        do {
             cout << "......................Menu Citas...............\n";
             cout << "1. Agendar nueva cita\n";
             cout << "2. Modificar una cita\n";
@@ -369,8 +309,7 @@ public:
             cout << "Ingrese una opcion: ";
             cin >> opcion;
 
-            switch (opcion)
-            {
+            switch (opcion) {
             case 1:
                 setAgendarCita();
                 break;

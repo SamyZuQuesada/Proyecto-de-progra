@@ -81,10 +81,13 @@ public:
                 system("pause");
                 break;
 
-            case 4:
-                // contenedorCitas.MenuCitas();
+            case 4: {
+                cout << "Entrando a Gestión de citas..." << endl;
+                contenedorCitas.menuCitas();
                 system("pause");
                 break;
+            }
+
 
             case 5:
             {
