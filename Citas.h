@@ -36,7 +36,7 @@ public:
 	{
 		this->cedulaUsuario = _cedulaUsuario;
 	}
-	int getCedulaUsuario() const
+	int getCedulaUsuario() 
 	{
 		return this->cedulaUsuario;
 	}
@@ -45,7 +45,7 @@ public:
 	{
 		this->codigoMedico = _codigoMedico;
 	}
-	int getCodigoMedico() const
+	int getCodigoMedico() 
 	{
 		return this->codigoMedico;
 	}
@@ -54,7 +54,7 @@ public:
 	{
 		this->fecha = _fecha;
 	}
-	string getFecha() const
+	string getFecha() 
 	{
 		return this->fecha;
 	}
@@ -63,7 +63,7 @@ public:
 	{
 		this->codigoServicio = _codigoServicio;
 	}
-	int getCodigoServicio() const
+	int getCodigoServicio() 
 	{
 		return this->codigoServicio;
 	}
@@ -72,11 +72,11 @@ public:
 	{
 		this->costoTotal = _costoTotal;
 	}
-	float getCostoTotal() const
+	float getCostoTotal()
 	{
 		return this->costoTotal;
 	}
-	virtual void getMostrarDatos() const
+	void getMostrarDatos()
 	{
 		cout << "................Datos de la cita............" << endl;
 		cout << "Numero de cita: " << getNumeroCita() << endl;
