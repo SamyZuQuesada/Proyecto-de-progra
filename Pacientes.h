@@ -9,7 +9,7 @@ private:
 	string fechaRegistro;
 
 public:
-	Pacientes(int _cedula, string _nombre, int _telefono, string _correo, string _apellido, string _fechaRegistro) : Persona( _cedula,  _nombre,  _telefono,  _correo)
+	Pacientes(int _cedula, string _nombre, int _telefono, string _correo, string _apellido, string _fechaRegistro) : Persona(_cedula, _nombre, _telefono, _correo)
 	{
 		this->apellido = _apellido;
 		this->fechaRegistro = _fechaRegistro;
@@ -35,14 +35,14 @@ public:
 		return this->fechaRegistro;
 	}
 
-	
+
 	//Metodo que muestra datos del paciente utilizando polimosrfismo
 	void getMostrarDatos() const override
 	{
 		cout << "................Datos del paciente............" << endl;
 		Persona::getMostrarDatos();
 		cout << "Apellido: " << getApellido() << endl;
-		cout << "Fecha de registro: " << getFechaRegistro() << endl;
+		cout << "Fecha de registro en formato: DD/MM/AAAA: " << getFechaRegistro() << endl;
 		cout << "..............................................." << endl;
 	}
 
