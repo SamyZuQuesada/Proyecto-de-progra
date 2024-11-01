@@ -12,479 +12,434 @@
 class ContenedorCitas {
 private:
     vector<Citas*> listaCitas;
-    ContenedorMedicos contenedorMedicos;
-    ContenedorPacientes contenedorPacientes;
-    ContenedorServicios contenedorServicios;
+    ContenedorMedicos* contenedorMedicos;
+    ContenedorPacientes* contenedorPacientes;
+    ContenedorServicios* contenedorServicios;
+    int contadorConsecutivo = 1;
 
 public:
+
+    ContenedorCitas(ContenedorMedicos* contenedorMedicos, ContenedorPacientes* contenedorPacientes, ContenedorServicios* contenedorServicios)
+    {
+        this->contenedorMedicos = contenedorMedicos;
+        this->contenedorPacientes = contenedorPacientes;
+        this->contenedorServicios = contenedorServicios;
+
+        //Se ha creado este constructor que recibe por parametro que es una instancia,
+		// para poder accedecer y usar los atributos y metodos de las clases ContenedorMedicos, ContenedorPacientes y ContenedorServicios.
+    }
 
     const vector<Citas*>& getListaCitas() const
     {
         return listaCitas;
     }
 
-    void setAgendarCita() {
+    void setAgendarCita()
+    {
+
         int numeroCita, cedulaUsuario, codigoMedico, codigoServicio;
         string fecha;
-        float costoTotal;
-        int contador = 1;
+        float costoTotal = 0;
+        bool citaExiste = false;
 
-        if (listaCitas.empty()) { //si la lista esta vacía solicita los datos
-            cout << "Ingrese el codigo del medico: "; cin >> codigoMedico;
+        cout << "Digite la cedula del paciente: " << endl;
+        cin >> cedulaUsuario;
 
-            if (contenedorMedicos.getListaMedicos().empty()) {
-
-                int opcion = 0;
-                cout << "No hay ningun medico registrado." << endl;
-                do {//si no hay ningun médico registrado se da a elegir al usuario entre cancelar la solicitud, o registrar el médico
-                    system("pause");
-                    system("cls");
-                    cout << "1. Registrar un medico" << endl;
-                    cout << "2. Cancelar solicitud" << endl;
-                    cout << "Ingrese una opcion:"; cin >> opcion;
-
-                    switch (opcion) {
-                    case 1:
-                    {
-                        contenedorMedicos.setRegistrarMedico(); //Aqui no es necesario darle a citas acceso a los getters que usa el setRegistraMedicos del contenedor de médicos, ya que con que el método tenga acceso es suficiente
-                        break;
-                    }
-                    case 2:
-                        cout << "Volviendo al menu..." << endl;
-                        system("pause");
-                        system("cls");
-                        return; //cuando se seleccione este caso, el return garantiza que salga completamente del método 
-                    default:
-                        break;
-                    }
-                } while (opcion != 2);
-            }//si el contenedor de medicos no estuviese vacio hace lo sgte
-            else {
-                for (int i = 0; i < contenedorMedicos.getListaMedicos().size(); i++) {
-
-                    Medicos* medicos = contenedorMedicos.getListaMedicos()[i]; //con esto accedemos a un medico por iteración 
-
-                    if (medicos->getCodigo() == codigoMedico) { //si el codigo ya registrado se parece al codigo medco ya ingresado hace los siguiente...
-                        //comprobar disponibilidad
-                        medicos->getDisponibilidadParaCita();
-                        if (!medicos->getDisponibilidadParaCita()) {//si disponibilidad es true, entonces no se ejecuta este bloque, pero si su else
-                            cout << "Este medico no se encuentra disponible" << endl;
-
-                            int opcion = 0;
-                            do {
-                            cout << "1. Ingresar otro medico" << endl;
-                            cout << "2. Cancelar solicitud" << endl;
-                            cout << "Ingresar una opcion: "; cin >> opcion;
-
-                            switch (opcion) {
-                            case 1: {
-                                cout << "Ingrese un medico: "; cin >> codigoMedico
-                                    if (medicos->getCodigo() == codigoMedico) { //si el codigo ya registrado se parece al codigo medco ya ingresado hace los siguiente...
-                                        //comprobar disponibilidad
-                                        medicos->getDisponibilidadParaCita();
-                                        if (!medicos->getDisponibilidadParaCita()) {//si disponibilidad es true,  entonces no se ejecuta este bloque, pero si su else
-                                            cout << "Este medico no se encuentra disponible" << endl;
-                                        }
-                                        else {
-                                            cout << "El medico se encuetra disponible para agendar" << endl;
-                                            break;
-                                        }
-                                    }
-                                break;
-                            }
-                            case 2: {
-                                cout << "volviendo al menu..." << endl;
-                                system("pause");
-                                system("cls");
-                                return;
-                            }
-                            }
-                            }while(opcion != 2);
-                        }
-                        else {//si el medico no se encuentra disponible...
-                            cout << "El medico se encuetra disponible para agendar" << endl;
-                        }
-                        break;
-                    }
-                    else {
-                        int opcion = 0;
-                        cout << "No hay ningun medico registrado con ese codigo." << endl;
-                        do {//si no hay ningun médico registrado se da a elegir al usuario entre cancelar la solicitud, o registrar el médico
-                            system("pause");
-                            system("cls");
-                            cout << "1. Registrar un medico" << endl;
-                            cout << "2. Cancelar solicitud" << endl;
-                            cout << "Ingrese una opcion:"; cin >> opcion;
-
-                            switch (opcion) {
-                            case 1:
-                            {
-                                contenedorMedicos.setRegistrarMedico(); //Aqui no es necesario darle a citas acceso a los getters que usa el setRegistraMedicos del contenedor de médicos, ya que con que el método tenga acceso es suficiente
-                                break;
-                            }
-                            case 2:
-                                cout << "Volviendo al menu..." << endl;
-                                system("pause");
-                                system("cls");
-                                return; //cuando se seleccione este caso, el return garantiza que salga completamente del método 
-                            default:
-                                break;
-                            }
-                        } while (opcion != 2);
-                    }
-                }
+        if (!validarPaciente(cedulaUsuario))
+        {
+            int opcionPaciente;
+            cout << "El paciente no se encuentra registrado en el sistema" << endl;
+            cout << "Desea agregarlo al sistema ?" << endl;
+            cout << "1- SI" << endl;
+            cout << "0-NO" << endl;
+            cin >> opcionPaciente;
+            if (opcionPaciente == 1)
+            {
+                contenedorPacientes->setRegistrarPaciente();
+                system("pause");
             }
-            //ahora solicita los datos del paciente
-
-            cout << "Ingrese el codigo del medico: "; cin >> cedulaUsuario;
-
-            if (contenedorPacientes.getListaPacientes().empty()) {
-
-                int opcion = 0;
-                cout << "No hay ningun paciente registrado." << endl;
-                do {//si no hay ningun paciente registrado se da a elegir al usuario entre cancelar la solicitud, o registrar el médico
-                    system("pause");
-                    system("cls");
-                    cout << "1. Registrar un paciente" << endl;
-                    cout << "2. Cancelar solicitud" << endl;
-                    cout << "Ingrese una opcion:"; cin >> opcion;
-
-                    switch (opcion) {
-                    case 1:
-                    {
-                        contenedorPacientes.setRegistrarPaciente();
-                        break;
-                    }
-                    case 2:
-                        cout << "Volviendo al menu..." << endl;
-                        system("pause");
-                        system("cls");
-                        return; //cuando se seleccione este caso, el return garantiza que salga completamente del método 
-                    default:
-                        break;
-                    }
-                } while (opcion != 2);
-            }//si el contenedor de pacientes no estuviese vacio hace lo sgte
-            else {
-                for (int i = 0; i < contenedorPacientes.getListaPacientes().size(); i++) {
-
-                    Pacientes* pacientes = contenedorPacientes.getListaPacientes()[i]; //con esto accedemos a un paciente por iteración 
-
-                    if (pacientes->getCedula() == cedulaUsuario) { //si la cedula ya registrada se parece la cedula del paciente ya ingresado hace los siguiente...
-                        break;
-                    }
-                    else {
-                        int opcion = 0;
-                        cout << "No hay ningun paciente registrado con esa cedula." << endl;
-                        do {//si no hay ningun médico registrado se da a elegir al usuario entre cancelar la solicitud, o registrar el médico
-                            system("pause");
-                            system("cls");
-                            cout << "1. Registrar a un paciente" << endl;
-                            cout << "2. Cancelar solicitud" << endl;
-                            cout << "Ingrese una opcion:"; cin >> opcion;
-
-                            switch (opcion) {
-                            case 1:
-                            {
-                                contenedorPacientes.setRegistrarPaciente();
-                                break;
-                            }
-                            case 2:
-                                cout << "Volviendo al menu..." << endl;
-                                system("pause");
-                                system("cls");
-                                return; //cuando se seleccione este caso, el return garantiza que salga completamente del método 
-                            default:
-                                break;
-                            }
-                        } while (opcion != 2);
-                    }
-                }
+            else if (opcionPaciente == 0)
+            {
+                cout << "Volviendo al menu..." << endl;
+                return;
             }
-            //Ahora solicita los servicios
+            else
+            {
+                cout << "Opcion no valida" << endl;
+            }
 
-            cout << "Ingrese el codigo del servicio: "; cin >> codigoServicio;
+        }
+        else
+        {
+            cout << "\nEl paciente ya se encuentra registrado en el sistema!!" << endl;
+            contenedorPacientes->consultarPaciente();
+        } //fin de paciente
 
-            if (contenedorServicios.getListaServicios().empty()) {
+        cout << "Digite el codigo del servicio: " << endl;
+        cin >> codigoServicio;
 
-                int opcion = 0;
-                cout << "No hay ningun servicio registrado." << endl;
-                do {//si no hay ningun servicio registrado se da a elegir al usuario entre cancelar la solicitud, o registrar el médico
-                    system("pause");
-                    system("cls");
-                    cout << "1. Registrar un servicio" << endl;
-                    cout << "2. Cancelar solicitud" << endl;
-                    cout << "Ingrese una opcion:"; cin >> opcion;
+        if (!validarServicio(codigoServicio))
+        {
+            int opcionServicio;
+            cout << "El servicio no se encuentra registrado en el sistema" << endl;
+            cout << "Desea agregarlo al sistema ?" << endl;
+            cout << "1- SI" << endl;
+            cout << "0-NO" << endl;
+            cin >> opcionServicio;
+            if (opcionServicio == 1)
+            {
+                contenedorServicios->setRegistrarServicio();
+                system("pause");
+            }
+            else if (opcionServicio == 0)
+            {
+                cout << "Volviendo al menu..." << endl;
+                return;
+            }
+            else
+            {
+                cout << "Opcion no valida" << endl;
+            }
 
-                    switch (opcion) {
-                    case 1:
-                    {
-                        contenedorServicios.setRegistrarServicio(); //Llama a la funcion set del contenedor de servicios
-                        break;
-                    }
-                    case 2:
-                        cout << "Volviendo al menu..." << endl;
-                        system("pause");
-                        system("cls");
-                        return; //cuando se seleccione este caso, el return garantiza que salga completamente del método 
-                    default:
-                        break;
-                    }
-                } while (opcion != 2);
-            }//si el contenedor de servicios no estuviese vacio hace lo sgte
-            else {
-                for (int i = 0; i < contenedorServicios.getListaServicios().size(); i++) {
+        }
+        else
+        {
+            cout << "El servicio ya se encuentra registrado en el sistema!!" << endl;
+            contenedorServicios->consultarServicios();
+        } //fin de servicio
 
-                    Servicios* servicios = contenedorServicios.getListaServicios()[i]; //con esto accedemos a un servicio por iteración 
 
-                    if (servicios->getCodigo() == codigoServicio) { //si el codigo del servicio que ya esta registrado se parece al codigo ya ingresado hace los siguiente...
-                        break;
-                    }
-                    else {
-                        int opcion = 0;
-                        cout << "No hay ningun servicio registrado con esa codigo." << endl;
-                        do {//si no hay ningun servicio registrado se da a elegir al usuario entre cancelar la solicitud, o registrar el médico
-                            system("pause");
-                            system("cls");
-                            cout << "1. Registrar a un paciente" << endl;
-                            cout << "2. Cancelar solicitud" << endl;
-                            cout << "Ingrese una opcion:"; cin >> opcion;
+        cout << "Digite el codigo del medico: " << endl;
+        cin >> codigoMedico;
+        if (!validarMedico(codigoMedico))
+        {
+            int opcionMedico;
+            cout << "El medico no se encuentra registrado en el sistema" << endl;
+            cout << "Desea agregarlo al sistema ?" << endl;
+            cout << "1- SI" << endl;
+            cout << "0-NO" << endl;
+            cin >> opcionMedico;
+            if (opcionMedico == 1)
+            {
+                contenedorMedicos->setRegistrarMedico();
+                system("pause");
+            }
+            else if (opcionMedico == 0)
+            {
+                cout << "Volviendo al menu..." << endl;
+                return;
+            }
+            else
+            {
+                cout << "Opcion no valida" << endl;
+            }
+        }
+        else
+        {
+            cout << "El medico ya se encuentra registrado en el sistema!!" << endl;
+            contenedorMedicos->consultarMedicos();
+        }
 
-                            switch (opcion) {
-                            case 1:
-                            {
-                                contenedorServicios.setRegistrarServicio();
-                                break;
-                            }
-                            case 2:
-                                cout << "Volviendo al menu..." << endl;
-                                system("pause");
-                                system("cls");
-                                return; //cuando se seleccione este caso, el return garantiza que salga completamente del método 
-                            default:
-                                break;
-                            }
-                        } while (opcion != 2);
-                    }
-                }
-                //habiendo cumplido con los requisitos para agendar, se le solicitan los datos
+        cout << "Digite el numero de cita: " << endl;
+        cin >> numeroCita;
+        for (int i = 0; i < listaCitas.size(); i++)
+        {
+            if (numeroCita == listaCitas[i]->getNumeroCita())
+            {
+                cout << "El numero de cita ya existe" << endl;
+                citaExiste = true;
+                system("pause");
+                return;
+            }
+        }
+        if (!citaExiste)
+        {
+
+            do
+            {
                 cin.ignore();
-                cout << "Ingrese la fecha: "; getline(cin, fecha);//falta por completar eso y el requisito 5.1.3
-            }
-        }//caso contrario, el vecotr de citas no esta vacio...
-        //tiene que recorrer citas, para ver si el paciente se encuentra en el sistema, en caso de estarlo se le solicitará la fecha de la cita, si ya hay una cita para esa fecha de esa misma persona, no se le permite agendar otra, peri se le permite si es en un dia distinto
-        else {
-            cout << "Ingrese la cedula del paciente: "; cin >> cedulaUsuario;
 
-            for (int i = 0; i < this->getListaCitas().size(); i++) {
+                cout << "Digite la fecha de la cita: " << endl;
+                cin >> fecha;
 
-                Citas* citas = listaCitas[i];//con esto accede al puntero citas en cada iteracion
-
-                if (citas->getCedulaUsuario() == cedulaUsuario) { //se usa el -> en lugar de . porque se trata con punteros y no con instancias de objetos
-                    //se verifica si  el paciente se encuentra registrado
-                    cin.ignore();
-                    cout << "Ingrese una fecha para agendar una cita: "; getline(cin, fecha);
-
-                    if (citas->getFecha() == fecha) {
-                        cout << "No se permite que el paciente agende otra cita para el mismo dia." << endl;
-                        system("pause");
-                        system("cls");
-                        return;
-                    }
-                    else { //si la fehca no es la misma, entonces solicita los otros datos de la cita
-                        //aqui es distinto que cuando el vector estaba vacio
-                        cout << "Ingrese el codigo de un medico: "; cin >> codigoMedico;
-
-                        for (int i = 0; i < contenedorMedicos.getListaMedicos().size(); i++) {
-
-                            Medicos* medicos = contenedorMedicos.getListaMedicos()[i]; //con esto accedemos a un medico por iteración 
-
-                            if (medicos->getCodigo() == codigoMedico) { //si el codigo ya registrado se parece al codigo medco ya ingresado hace los siguiente...
-                                break;
-                            }
-                            else {
-                                int opcion = 0;
-                                cout << "No hay ningun medico registrado con ese codigo." << endl;
-                                do {//si no hay ningun médico registrado se da a elegir al usuario entre cancelar la solicitud, o registrar el médico
-                                    system("pause");
-                                    system("cls");
-                                    cout << "1. Registrar un medico" << endl;
-                                    cout << "2. Cancelar solicitud" << endl;
-                                    cout << "Ingrese una opcion:"; cin >> opcion;
-
-                                    switch (opcion) {
-                                    case 1:
-                                    {
-                                        contenedorMedicos.setRegistrarMedico(); //Aqui no es necesario darle a citas acceso a los getters que usa el setRegistraMedicos del contenedor de médicos, ya que con que el método tenga acceso es suficiente
-                                        break;
-                                    }
-                                    case 2:
-                                        cout << "Volviendo al menu..." << endl;
-                                        system("pause");
-                                        system("cls");
-                                        return; //cuando se seleccione este caso, el return garantiza que salga completamente del método 
-                                    default:
-                                        break;
-                                    }
-                                } while (opcion != 2);
-
-                                }
-                            }
-
-                        //ahora solicta servicio
-                        cout << "Ingrese el codigo de un servicio: "; cin >> codigoServicio;
-
-                        for (int i = 0; i < contenedorServicios.getListaServicios().size(); i++) {
-
-                            Servicios* servicios = contenedorServicios.getListaServicios()[i]; //con esto accedemos a un servicio por iteración 
-
-                            if (servicios->getCodigo() == codigoServicio) { //si el codigo del servicio que ya esta registrado se parece al codigo ya ingresado hace los siguiente...
-                                break;
-                            }
-                            else {
-                                int opcion = 0;
-                                cout << "No hay ningun servicio registrado con esa codigo." << endl;
-                                do {//si no hay ningun servicio registrado se da a elegir al usuario entre cancelar la solicitud, o registrar el médico
-                                    system("pause");
-                                    system("cls");
-                                    cout << "1. Registrar a un paciente" << endl;
-                                    cout << "2. Cancelar solicitud" << endl;
-                                    cout << "Ingrese una opcion:"; cin >> opcion;
-
-                                    switch (opcion) {
-                                    case 1:
-                                    {
-                                        contenedorServicios.setRegistrarServicio();
-                                        break;
-                                    }
-                                    case 2:
-                                        cout << "Volviendo al menu..." << endl;
-                                        system("pause");
-                                        system("cls");
-                                        return; //cuando se seleccione este caso, el return garantiza que salga completamente del método 
-                                    default:
-                                        break;
-                                    }
-                                } while (opcion != 2);
-                            }
-                        }
-                        //tengo que solicitar los otros datos aun de la cita
-                    }//else del caso en caso de la fecha no sea la misma
+                if (fecha.empty())
+                {
+                    cout << "No se permiten campos vacios, intentelo de nuevo" << endl;
                 }
-                else {
-                    //en caso de que el paciente no se encuentra registrado
-                    int opcion = 0;
-                    cout << "No hay ningun paciente registrado con esa cedula." << endl;
-                    do {//si no hay ningun médico registrado se da a elegir al usuario entre cancelar la solicitud, o registrar el médico
-                        system("pause");
-                        system("cls");
-                        cout << "1. Registrar a un paciente" << endl;
-                        cout << "2. Cancelar solicitud" << endl;
-                        cout << "Ingrese una opcion:"; cin >> opcion;
 
-                        switch (opcion) {
-                        case 1:
-                        {
-                            contenedorPacientes.setRegistrarPaciente();
-                            break;
-                        }
-                        case 2:
-                            cout << "Volviendo al menu..." << endl;
-                            system("pause");
-                            system("cls");
-                            return; //cuando se seleccione este caso, el return garantiza que salga completamente del método 
-                        default:
-                            break;
-                        }
-                    } while (opcion != 2);
 
-                    //ahora solicita medico otra vez
-                    cout << "Ingrese el codigo de un medico: "; cin >> codigoMedico;
+            } while (fecha.empty());
 
-                    for (int i = 0; i < contenedorMedicos.getListaMedicos().size(); i++) {
 
-                        Medicos* medicos = contenedorMedicos.getListaMedicos()[i]; //con esto accedemos a un medico por iteración 
+            Citas* newCita = new Citas(contadorConsecutivo, cedulaUsuario, codigoMedico, fecha, codigoServicio, costoTotal);
+            cout << "Cita agendada correctamente!!" << newCita->getFecha() << endl;
+            listaCitas.push_back(newCita);
+            contadorConsecutivo++;
 
-                        if (medicos->getCodigo() == codigoMedico) { //si el codigo ya registrado se parece al codigo medco ya ingresado hace los siguiente...
-                            break;
-                        }
-                        else {
-                            int opcion = 0;
-                            cout << "No hay ningun medico registrado con ese codigo." << endl;
-                            do {//si no hay ningun médico registrado se da a elegir al usuario entre cancelar la solicitud, o registrar el médico
-                                system("pause");
-                                system("cls");
-                                cout << "1. Registrar un medico" << endl;
-                                cout << "2. Cancelar solicitud" << endl;
-                                cout << "Ingrese una opcion:"; cin >> opcion;
+            cout << "Cita registrada con exito!!" << endl;
 
-                                switch (opcion) {
-                                case 1:
-                                {
-                                    contenedorMedicos.setRegistrarMedico(); //Aqui no es necesario darle a citas acceso a los getters que usa el setRegistraMedicos del contenedor de médicos, ya que con que el método tenga acceso es suficiente
-                                    break;
-                                }
-                                case 2:
-                                    cout << "Volviendo al menu..." << endl;
-                                    system("pause");
-                                    system("cls");
-                                    return; //cuando se seleccione este caso, el return garantiza que salga completamente del método 
-                                default:
-                                    break;
-                                }
-                            } while (opcion != 2);
-
-                        }
-                    }
-                    //ahora solicita servicio otra vez
-                    cout << "Ingrese el codigo de un servicio: "; cin >> codigoServicio;
-
-                    for (int i = 0; i < contenedorServicios.getListaServicios().size(); i++) {
-
-                        Servicios* servicios = contenedorServicios.getListaServicios()[i]; //con esto accedemos a un servicio por iteración 
-
-                        if (servicios->getCodigo() == codigoServicio) { //si el codigo del servicio que ya esta registrado se parece al codigo ya ingresado hace los siguiente...
-                            break;
-                        }
-                        else {
-                            int opcion = 0;
-                            cout << "No hay ningun servicio registrado con esa codigo." << endl;
-                            do {//si no hay ningun servicio registrado se da a elegir al usuario entre cancelar la solicitud, o registrar el médico
-                                system("pause");
-                                system("cls");
-                                cout << "1. Registrar a un paciente" << endl;
-                                cout << "2. Cancelar solicitud" << endl;
-                                cout << "Ingrese una opcion:"; cin >> opcion;
-
-                                switch (opcion) {
-                                case 1:
-                                {
-                                    contenedorServicios.setRegistrarServicio();
-                                    break;
-                                }
-                                case 2:
-                                    cout << "Volviendo al menu..." << endl;
-                                    system("pause");
-                                    system("cls");
-                                    return; //cuando se seleccione este caso, el return garantiza que salga completamente del método 
-                                default:
-                                    break;
-                                }
-                            } while (opcion != 2);
-                        }
-                    }
-                    //falta solicitar los otros datos de la cita
-
-                }
+            //Mostrar datos de las citas agendadas
+            cout << "...........LISTA DE CITAS............." << endl;
+            for (int i = 0; i < listaCitas.size(); i++)
+            {
+                listaCitas[i]->getMostrarDatos();
             }
+            cout << "......................................" << endl;
+            return;
         }
     }
 
+    bool validarPaciente(int cedulaUsuario)
+    {
+        for (int i = 0; i < contenedorPacientes->getListaPacientes().size(); i++)
+        {
+            cout << "CEDULA: " << contenedorPacientes->getListaPacientes()[i]->getCedula() << endl;
+            if (cedulaUsuario == contenedorPacientes->getListaPacientes()[i]->getCedula())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
-    void menuCitas() {
+    bool validarMedico(int codigoMedico)
+    {
+        for (int i = 0; i < contenedorMedicos->getListaMedicos().size(); i++)
+        {
+            cout << "CODIGO: " << contenedorMedicos->getListaMedicos()[i]->getCodigo() << endl;
+            if (codigoMedico == contenedorMedicos->getListaMedicos()[i]->getCodigo())
+
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool validarServicio(int codigoServicio)
+    {
+        for (int i = 0; i < contenedorServicios->getListaServicios().size(); i++)
+        {
+            if (codigoServicio == contenedorServicios->getListaServicios()[i]->getCodigoServicio())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+	float calcularCostoTotal() const
+	{
+		float impuesto = 0.02;
+		float cargosAdministrativos = 0.10;
+		float costoTotal = 0;
+
+		for (int i = 0; i < contenedorServicios->getListaServicios().size(); i++)
+		{
+            costoTotal += contenedorServicios->getListaServicios()[i]->getCosto() + impuesto + cargosAdministrativos;
+		}
+		return costoTotal;
+	}
+    void disponibilidadMedico(int codigoMedico)
+    {
+        for (int i = 0; i < contenedorMedicos->getListaMedicos().size();i++)
+        {
+            if (contenedorMedicos->getListaMedicos()[i]->getDisponibilidad())
+            {
+                cout << "El medico con el codigo: " << contenedorMedicos->getListaMedicos()[i]->getCodigo() << " esta disponible" << endl;
+            }
+
+        }
+    }
+
+    void disponibilidadServicio(int codigoServicio)
+    {
+        for (int i = 0;i < contenedorServicios->getListaServicios().size();i++)
+        {
+            if (contenedorServicios->getListaServicios()[i]->getDisponibilidad())
+            {
+                cout << "El servicio con el codigo: " << contenedorServicios->getListaServicios()[i]->getCodigoServicio() << " esta disponible" << endl;
+            }
+        }
+
+    }
+
+    void getModificarCitas()
+    {
+        int numeroCita;
+        string nuevaFecha;
+        bool buscar = false;
+
+        if (listaCitas.empty())
+        {
+            cout << "No hay citas registradas" << endl;
+            return;
+        }
+
+        cout << "Ingrese el numero de cita" << endl;
+        cin >> numeroCita;
+
+        for (int i = 0; i < listaCitas.size();i++)
+        {
+            if (listaCitas[i]->getNumeroCita() == numeroCita)
+            {
+                buscar = true;
+
+                cout << "Ingrese la nueva fecha de la cita: " << endl;
+                getline(cin, nuevaFecha);
+
+                if (nuevaFecha.empty())
+                {
+                    cout << "No se permiten campos vacios" << endl;
+                    return;
+                }
+
+                listaCitas[i]->setFecha(nuevaFecha);
+                cout << "Fecha modificada correctamente!!" << endl;
+            }
+            if (!buscar)
+            {
+                cout << "No se ha encontrado una cita con ese numero.." << endl;
+            }
+
+            cout << ".........LISTA DE CITAS.........." << endl;
+            for (int i = 0; i < listaCitas.size();i++)
+            {
+                listaCitas[i]->getMostrarDatos();
+            }
+            cout << "................................." << endl;
+
+            cout << "No existe una cita con ese numero.." << endl;
+        }
+    }
+
+    void getConsultarCitas()
+    {
         int opcion;
-        do {
-            system("cls"); 
+        bool buscar = false;
+
+        cout << "....CONSULTAR CITAS...." << endl;
+        cout << "1. Consultar todas las citas: " << endl;
+        cout << "2. Consultar una cita en especifico: " << endl;
+        cin >> opcion;
+
+        if (opcion == 1)
+        {
+            cout << ".........LISTA DE CITAS.........." << endl;
+            for (int i = 0; i < listaCitas.size(); i++)
+            {
+                listaCitas[i]->getMostrarDatos();
+            }
+            cout << "................................." << endl;
+        }
+        else if (opcion == 2)
+        {
+            int numeroCita;
+
+            cout << "Ingrese el numero de cita: " << endl;
+            cin >> numeroCita;
+
+            for (int i = 0; i < listaCitas.size(); i++)
+            {
+                if (listaCitas[i]->getNumeroCita() == numeroCita)
+                {
+                    buscar = true;
+                    listaCitas[i]->getMostrarDatos();
+                }
+            }
+
+            if (!buscar)
+            {
+                cout << "No se ha encontrado una cita con ese numero.." << endl;
+            }
+        }
+        else
+        {
+            cout << "Opcion no valida" << endl;
+        }
+    }
+
+    void guardarEnArchivo()
+    {
+        ofstream archivo("Citas.txt");
+        if (archivo.is_open())
+        {
+            for (int i = 0; i < listaCitas.size();i++)
+            {
+                archivo << listaCitas[i]->getNumeroCita()
+                    << "-" << listaCitas[i]->getCedulaUsuario()
+                    << "-" << listaCitas[i]->getCodigoMedico()
+                    << "-" << listaCitas[i]->getFecha()
+                    << "-" << listaCitas[i]->getCodigoServicio()
+                    << "-" << listaCitas[i]->getCostoTotal()
+                    << endl;
+            }
+            archivo.close();
+            cout << "Datos guardados correctamente en el archivo Citas.txt" << endl;
+        }
+        else
+        {
+            cout << "No se pudo abrir el archivo" << endl;
+        }
+    }
+
+    void recuperarArchivos()
+    {
+        listaCitas.clear();
+        ifstream archivo("Citas.txt");
+        if (archivo.is_open())
+        {
+            string linea;
+            while (getline(archivo, linea))
+            {
+                stringstream ss(linea);
+
+                string numeroCita, cedulaUsuario, codigoMedico, fecha, codigoServicio, costoTotal, consecutivo;
+
+                getline(ss, numeroCita, '-');
+                int _numeroCita = stoi(numeroCita);
+
+                getline(ss, cedulaUsuario, '-');
+                int _cedulaUsuario = stoi(cedulaUsuario);
+
+                getline(ss, codigoMedico, '-');
+                int _codigoMedico = stoi(codigoMedico);
+
+                getline(ss, fecha, '-');
+
+                getline(ss, codigoServicio, '-');
+                int _codigoServicio = stoi(codigoServicio);
+
+                getline(ss, costoTotal, '-');
+                float _costoTotal = stof(costoTotal);
+
+                getline(ss, consecutivo, '-');
+                int _consecutivo = stoi(consecutivo);
+
+                /*  if(contadorConsecutivo >ultimoConsecutivo)
+                  ultimoConsecutivo = contadorConsecutivo;*/
+
+
+                Citas* newCita = new Citas(_numeroCita, _cedulaUsuario, _codigoMedico, fecha, _codigoServicio, _costoTotal);
+                listaCitas.push_back(newCita);
+
+            }
+            archivo.close();
+            cout << "Datos recuperados correctamente" << endl;
+            // contadorConsecutivo = ultimoConsecutivo + 1;
+        }
+        else
+        {
+            cout << "No se pudo abrir el archivo" << endl;
+        }
+    }
+
+    void menuCitas()
+    {
+        int opcion;
+        do
+        {
+            system("cls");
             cout << "......................Menu Citas..............." << endl;
             cout << "1. Agendar nueva cita" << endl;
             cout << "2. Modificar una cita" << endl;
@@ -496,31 +451,53 @@ public:
             cout << "Ingrese una opcion: ";
             cin >> opcion;
 
-            switch (opcion) {
+            switch (opcion)
+            {
             case 1:
+            {
+                recuperarArchivos();
                 setAgendarCita();
-                system("pause"); 
-                break;
-            case 2:
-                // getModificar();
-                break;
-            case 3:
-                // getConsultar();
-                break;
-            case 4:
-                // guardarEnArchivo();
-                break;
-            case 5:
-                // recuperarDeArchivo();
-                break;
-            case 6:
-                cout << "Regresando al menu principal." << endl;
-                break;
-            default:
-                cout << "Opcion no valida" << endl;
+                system("pause");
                 break;
             }
-            system("pause");
+            case 2:
+            {
+                getModificarCitas();
+                system("pause");
+                break;
+            }
+            case 3:
+            {
+                getConsultarCitas();
+                system("pause");
+                break;
+            }
+            case 4:
+            {
+                guardarEnArchivo();
+                system("pause");
+                break;
+            }
+            case 5:
+            {
+                recuperarArchivos();
+                system("pause");
+                break;
+            }
+            case 6:
+            {
+                cout << "Regresando al menu principal." << endl;
+                system("pause");
+                break;
+            }
+            default:
+            {
+                cout << "Opcion no valida" << endl;
+                system("pause");
+                break;
+            }
+
+            }
         } while (opcion != 6);
     }
 };
