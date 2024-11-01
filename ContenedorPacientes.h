@@ -175,6 +175,7 @@ public:
 		cout << "2. Para buscar pacientes por fecha de registro" << endl;
 		cout << "Digite una opcion: ";
 		cin >> opcion;
+		cin.ignore();
 
 		switch (opcion)
 		{
