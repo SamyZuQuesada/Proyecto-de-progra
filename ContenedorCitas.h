@@ -171,10 +171,9 @@ public:
             } while (fecha.empty());
 
 
-            Citas* newCita = new Citas(contadorConsecutivo, cedulaUsuario, codigoMedico, fecha, codigoServicio, costoTotal);
+            Citas* newCita = new Citas(contadorConsecutivo++, cedulaUsuario, codigoMedico, fecha, codigoServicio, costoTotal);
             cout << "Cita agendada correctamente!!" << newCita->getFecha() << endl;
             listaCitas.push_back(newCita);
-            contadorConsecutivo++;
 
             cout << "Cita registrada con exito!!" << endl;
 
@@ -390,6 +389,8 @@ public:
         if (archivo.is_open())
         {
             string linea;
+			int ultimoConsecutivo = 0;
+
             while (getline(archivo, linea))
             {
                 stringstream ss(linea);
@@ -416,8 +417,9 @@ public:
                 getline(ss, consecutivo, '-');
                 int _consecutivo = stoi(consecutivo);
 
-                /*  if(contadorConsecutivo >ultimoConsecutivo)
-                  ultimoConsecutivo = contadorConsecutivo;*/
+				if (contadorConsecutivo > ultimoConsecutivo) //La variable contadorConsecutivo se inicializa en 1, si es mayor al 
+                                                             //ultimoConsecutivo se le asigna el valor de contadorConsecutivo
+                 ultimoConsecutivo = contadorConsecutivo;
 
 
                 Citas* newCita = new Citas(_numeroCita, _cedulaUsuario, _codigoMedico, fecha, _codigoServicio, _costoTotal);
@@ -426,7 +428,8 @@ public:
             }
             archivo.close();
             cout << "Datos recuperados correctamente" << endl;
-            // contadorConsecutivo = ultimoConsecutivo + 1;
+
+             contadorConsecutivo = ultimoConsecutivo + 1;
         }
         else
         {
