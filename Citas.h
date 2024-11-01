@@ -1,7 +1,6 @@
 #pragma once
 #include "Librerias.h"
 
-
 class Citas
 {
 private:
@@ -28,7 +27,7 @@ public:
 	{
 		this->numeroCita = _numeroCita;
 	}
-	int getNumeroCita()
+	int getNumeroCita() const
 	{
 		return this->numeroCita;
 	}
@@ -37,7 +36,7 @@ public:
 	{
 		this->cedulaUsuario = _cedulaUsuario;
 	}
-	int getCedulaUsuario()
+	int getCedulaUsuario() const
 	{
 		return this->cedulaUsuario;
 	}
@@ -46,7 +45,7 @@ public:
 	{
 		this->codigoMedico = _codigoMedico;
 	}
-	int getCodigoMedico()
+	int getCodigoMedico() const
 	{
 		return this->codigoMedico;
 	}
@@ -55,7 +54,7 @@ public:
 	{
 		this->fecha = _fecha;
 	}
-	string getFecha()
+	string getFecha() const
 	{
 		return this->fecha;
 	}
@@ -64,7 +63,7 @@ public:
 	{
 		this->codigoServicio = _codigoServicio;
 	}
-	int getCodigoServicio()
+	int getCodigoServicio() const
 	{
 		return this->codigoServicio;
 	}
@@ -73,12 +72,11 @@ public:
 	{
 		this->costoTotal = _costoTotal;
 	}
-	float getCostoTotal()
+	float getCostoTotal() const
 	{
 		return this->costoTotal;
 	}
-
-	void getMostrarDatos()
+	virtual void getMostrarDatos() const
 	{
 		cout << "................Datos de la cita............" << endl;
 		cout << "Numero de cita: " << getNumeroCita() << endl;
@@ -90,5 +88,4 @@ public:
 
 	}
 
-
-	};
+};
