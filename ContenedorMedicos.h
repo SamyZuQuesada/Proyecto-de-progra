@@ -1,5 +1,6 @@
 #pragma once
 #include "Librerias.h"
+#include "Persona.h"
 #include "Medicos.h"
 
 class ContenedorMedicos
@@ -8,6 +9,8 @@ private:
 	vector<Medicos*> listaMedicos; // se utiliza un vector de punteros a objeto de tipo medico
 
 public:
+
+	
 	//Esto devuelve la referencia de Medicos* que es un vector de punteros
 	const vector<Medicos*>& getListaMedicos() const
 	{
@@ -63,7 +66,7 @@ public:
 			{
 				for (int i = 0; i < listaMedicos.size(); i++)
 				{
-					if (listaMedicos[i]->getCodigo() == codigo) { //se compara codigo, si este se repite imprimira que ya existe un medico con este mismo codigo 
+					if (listaMedicos[i]->getCodigo() == codigo) { //se compara codigo, si este se repite imprimira que ya existe un medico con este mismo codigo y se terminara la ejecucion
 						cout << "Ya hay un medico registrado con este codigo." << endl;
 						return;
 					}
@@ -173,6 +176,33 @@ public:
 
 		}
 	}
+
+	void disponibilidadMedico(ContenedorMedicos* contenedorMedicos, int codigoMedico)
+	{
+		bool encontrado = false;
+
+		for (int i = 0; i < contenedorMedicos->getListaMedicos().size(); i++)
+		{
+			if (contenedorMedicos->getListaMedicos()[i]->getCodigo() == codigoMedico)
+			{
+				encontrado = true;
+				if (contenedorMedicos->getListaMedicos()[i]->getDisponibilidad())
+				{
+					cout << "El medico con el codigo: " << codigoMedico << " esta disponible" << endl;
+				}
+				else
+				{
+					cout << "El medico con el codigo: " << codigoMedico << " no esta disponible" << endl;
+				}
+				break;
+			}
+		}
+		if (!encontrado)
+		{
+			cout << "No se ha encontrado un medico con ese codigo" << endl;
+		}
+	}
+
 
 
 
@@ -298,7 +328,6 @@ public:
 			{
 			case 1:
 			{
-				recuperarArchivo();
 				setRegistrarMedico();
 				system("pause");
 				break;
