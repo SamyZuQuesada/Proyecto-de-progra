@@ -30,6 +30,10 @@ public:
 		return this->codigo;
 	}
 
+	int getCodigoServicio() const {
+		return this->codigo;
+	}
+
 	void setDescripcion(string _descripcion)
 	{
 		this->descripcion = _descripcion;
