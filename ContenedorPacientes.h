@@ -34,16 +34,83 @@ public:
 			cout << "Cedula no valida, ingrese un numero positivo de hasta 10 digitos " << endl;
 			return;
 		}
-			for (int i = 0; i < listaPacientes.size(); i++)
-			{
-				if (listaPacientes[i]->getCedula() == cedula)
-				{ //se compara codigo, si este se repite imprimira que ya existe un paciente con la misma identificacion 
-					cout << "Ya hay un paciente registrado con esta cedula." << endl;
-					return;
-				}
+		for (int i = 0; i < listaPacientes.size(); i++)
+		{
+			if (listaPacientes[i]->getCedula() == cedula)
+			{ //se compara codigo, si este se repite imprimira que ya existe un paciente con la misma identificacion 
+				cout << "Ya hay un paciente registrado con esta cedula." << endl;
+				return;
 			}
-				cin.ignore();
-				do{
+		}
+		cin.ignore();
+		do {
+
+			cout << "Ingrese el nombre del paciente: ";
+			getline(cin, nombre);
+
+			cout << "Ingrese el apellido del paciente: ";
+			getline(cin, apellido);
+
+			cout << "Ingrese el telefono del paciente: ";
+			cin >> telefono;
+
+			cin.ignore();
+
+			cout << "Ingrese el correo del paciente: ";
+			getline(cin, correo);
+
+			cout << "Ingrese la fecha de registro del paciente: ";
+			getline(cin, fechaRegistro);
+
+			if ((cedula <= 0) || nombre.empty() || apellido.empty() || (telefono <= 0) || correo.empty() || fechaRegistro.empty())
+			{
+				cout << "No se permiten campos vacios" << endl;
+				return;
+			}
+		} while ((cedula <= 0) || nombre.empty() || apellido.empty() || (telefono <= 0) || correo.empty() || fechaRegistro.empty());
+
+
+		Pacientes* newPaciente = new Pacientes(cedula, nombre, telefono, correo, apellido, fechaRegistro);
+		listaPacientes.push_back(newPaciente);
+
+		cout << "Paciente registrado con exito!!" << endl;
+
+		cout << "............. Lista de pacientes registrados................." << endl;
+		for (int i = 0; i < listaPacientes.size(); i++)
+		{
+			listaPacientes[i]->getMostrarDatos();
+		}
+		cout << "............................................................" << endl;
+	}
+
+	void setModificarPacientes()
+	{
+		int cedula, telefono;
+		string nombre, correo, apellido, fechaRegistro;
+		bool verificar = false;
+
+		if (listaPacientes.empty())
+		{
+			cout << "No hay datos que mostrar... Agrega un paciente para actualizar." << endl;
+			return;
+		}
+
+		cout << "Ingrese su número de cédula: ";
+		cin >> cedula;
+		cin.ignore();
+
+		if (cedula < 0 || cedula > 2222222222)
+		{
+			cout << "Cédula no válida, ingrese un número positivo de hasta 10 dígitos." << endl;
+			return;
+		}
+
+		for (int i = 0; i < listaPacientes.size(); i++)
+		{
+			// Verificar si la cédula ingresada coincide con un paciente existente
+			if (listaPacientes[i]->getCedula() == cedula)
+			{
+				verificar = true;
 
 				cout << "Ingrese el nombre del paciente: ";
 				getline(cin, nombre);
@@ -51,9 +118,8 @@ public:
 				cout << "Ingrese el apellido del paciente: ";
 				getline(cin, apellido);
 
-				cout << "Ingrese el telefono del paciente: ";
+				cout << "Ingrese el teléfono del paciente: ";
 				cin >> telefono;
-				
 				cin.ignore();
 
 				cout << "Ingrese el correo del paciente: ";
@@ -62,107 +128,37 @@ public:
 				cout << "Ingrese la fecha de registro del paciente: ";
 				getline(cin, fechaRegistro);
 
-				if ((cedula <=0) || nombre.empty() || apellido.empty() || (telefono <=0 ) || correo.empty() || fechaRegistro.empty())
+				// Validar que no haya campos vacíos ni valores inválidos
+				if (nombre.empty() || apellido.empty() || telefono <= 0 || correo.empty() || fechaRegistro.empty())
 				{
-					cout << "No se permiten campos vacios" << endl;
+					cout << "No se permiten campos vacíos o valores inválidos." << endl;
 					return;
 				}
-				} while ((cedula <= 0) || nombre.empty() || apellido.empty() || (telefono <= 0) || correo.empty() || fechaRegistro.empty());
 
+				// Actualizar los datos del paciente encontrado
+				listaPacientes[i]->setNombre(nombre);
+				listaPacientes[i]->setApellido(apellido);
+				listaPacientes[i]->setTelefono(telefono);
+				listaPacientes[i]->setCorreo(correo);
+				listaPacientes[i]->setFechaRegistro(fechaRegistro);
 
-			Pacientes* newPaciente = new Pacientes(cedula, nombre, telefono, correo, apellido, fechaRegistro);
-			listaPacientes.push_back(newPaciente);
+				cout << "¡Paciente modificado con éxito!" << endl;
 
-			cout << "Paciente registrado con exito!!" << endl;
-
-			cout << "............. Lista de pacientes registrados................." << endl;
-			for (int i = 0; i < listaPacientes.size(); i++)
-			{
-				listaPacientes[i]->getMostrarDatos();
-			}
-			cout << "............................................................" << endl;
-		}
-
-	void setModificarPacientes()
-	{
-		int cedula, telefono;
-		string nombre, correo, apellido, fechaRegistro;
-
-		if (listaPacientes.empty())
-		{
-			cout << "No hay datos que mostrar... Agrega un paciente para actualizar.. " << endl;
-		}
-
-		cout << "Ingrese su numero de cedula" << endl;
-		cin >> cedula;
-		cin.ignore();
-
-		if (cedula < 0 || cedula > 2222222222)
-		{
-			cout << "Cedula no valida, ingrese un numero positivo de hasta 10 digitos " << endl;
-			return;
-		}
-
-
-
-		else
-		{
-			for (int i = 0; i < listaPacientes.size(); i++)
-			{
-				if (listaPacientes[i]->getCedula() == cedula) // se verifica que la cedula ingresada por el usuario coincida con la cedula del medico ya existente
+				cout << "............. Lista de pacientes registrados................." << endl;
+				for (int j = 0; j < listaPacientes.size(); j++)
 				{
-
-					cin.ignore();
-
-					cout << "Ingrese el nombre del paciente: " << endl;
-					getline(cin, nombre);
-
-					cout << "Ingrese el apellido del paciente: " << endl;
-					getline(cin, apellido);
-
-					cout << "Ingrese el telefono del paciente: " << endl;
-					cin >> telefono;
-
-					cin.ignore();
-
-					cout << "Ingrese el correo del paciente: " << endl;
-					getline(cin, correo);
-
-					cout << "Ingrese la fecha de registro del paciente: " << endl;
-					getline(cin, fechaRegistro);
-
-
-					if ((cedula <= 0) || nombre.empty() || apellido.empty() || (telefono <=0) || correo.empty() || fechaRegistro.empty())
-					{
-						cout << "No se permiten campos vacios" << endl;
-						return;
-					}
-
-					// Actualizar los datos del paciente encontrado
-					listaPacientes[i]->setNombre(nombre);
-					listaPacientes[i]->setApellido(apellido);
-					listaPacientes[i]->setTelefono(telefono);
-					listaPacientes[i]->setCorreo(correo);
-					listaPacientes[i]->setFechaRegistro(fechaRegistro);
-
-					cout << "Paciente modificado con exito!" << endl;
-			
-					cout << "............. Lista de pacientes registrados................." << endl;
-					for (int i = 0; i < listaPacientes.size(); i++)
-					{
-
-						listaPacientes[i]->getMostrarDatos();
-					}
-					cout << "............................................................" << endl;
-					return;
+					listaPacientes[j]->getMostrarDatos();
 				}
+				cout << "............................................................" << endl;
+				return;
 			}
-
-			cout << "No existe un paciente registrado con esa cedula" << endl;
 		}
 
+		if (!verificar)
+		{
+			cout << "No existe un paciente registrado con esa cédula." << endl;
+		}
 	}
-
 
 	void consultarPaciente()
 	{
@@ -172,15 +168,67 @@ public:
 			cout << "No hay datos para mostrar..." << endl;
 			return;
 		}
-		else
+
+		int opcion;
+		cout << "..........Digite una opcion.........." << endl;
+		cout << "1. Para ver todos los pacientes " << endl;
+		cout << "2. Para buscar pacientes por fecha de registro" << endl;
+		cout << "Digite una opcion: ";
+		cin >> opcion;
+
+		switch (opcion)
+		{
+		case 1:
 		{
 			cout << ".............. Lista de Pacientes .............." << endl;
-			for (int i = 0; i < listaPacientes.size(); i++) {
+			for (int i = 0; i < listaPacientes.size(); i++) 
+			{
 				listaPacientes[i]->getMostrarDatos();
-
 			}//fin del for
-		} //fin del else
-				cout << "Total de pacientes registrados: " << listaPacientes.size() << endl;
+			cout << "................................................" << endl;
+			//fin del else
+			cout << "Total de pacientes registrados: " << listaPacientes.size() << endl;
+			break;
+		}
+		case 2:
+		{
+			string fechaBusqueda;
+			bool encontrado = false; 
+			int contador = 0; 
+
+			cout << "Ingrese la fecha de registro que desea buscar (Formato: DD/MM/AAAA): ";
+			getline(cin, fechaBusqueda);
+
+			cout << "............. Pacientes registrados el " << fechaBusqueda << " ................." << endl;
+
+			for (int i = 0; i < listaPacientes.size(); i++)
+			{
+				if (listaPacientes[i]->getFechaRegistro() == fechaBusqueda)
+				{
+					listaPacientes[i]->getMostrarDatos();  // Mostrar los datos del paciente
+					encontrado = true; 
+					contador++; 
+				}
+			}
+
+			if (!encontrado)
+			{
+				cout << "No se encontraron pacientes registrados en esa fecha..." << endl;
+			}
+			else
+			{
+				cout << "Los pacientes registrados el dia " << fechaBusqueda << ": " << contador << endl;
+			}
+
+			cout << "............................................................" << endl;
+			break;
+		}
+		default:
+		{
+			cout << "Opcion no valida, intentelo de nuevo..." << endl;
+			break;
+			}
+		}
 	}
 
 	void guardarArchivo()
