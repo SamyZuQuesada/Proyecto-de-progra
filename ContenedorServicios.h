@@ -175,7 +175,7 @@ public:
 			for (int i = 0; i < contenedorCitas->getListaCitas().size(); i++)
 			{
 				//llamara contenedor cita para mostrar las citas
-				contenedorCitas->getConsultarCitas();
+				//incompleto contenedorCitas->getConsultarCitas();
 				
 				cout << "........................................................." << endl;
 
