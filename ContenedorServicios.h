@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "Librerias.h"
 #include "Servicios.h"
 #include "Citas"
