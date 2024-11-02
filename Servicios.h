@@ -4,30 +4,30 @@
 class Servicios
 {
 private:
-	int codigo;
+	int codigoServicio;
 	string descripcion;
-	float costo;
+	float costoServicio;
 	bool disponibilidad;
 
 public:
-	Servicios(int _codigo, string _descripcion, float _costo, bool _disponibilidad)
+	Servicios(int _codigoServicio, string _descripcion, float _costoServicio, bool _disponibilidad)
 	{
-		this->codigo = _codigo;
+		this->codigoServicio = _codigoServicio;
 		this->descripcion = _descripcion;
-		this->costo = _costo;
+		this->costoServicio = _costoServicio;
 		this->disponibilidad = _disponibilidad;
 	}
 
 	
 	//metodos setter y getter
 
-	void setCodigo(int _codigo)
+	void setCodigoServicio(int _codigoServicio)
 	{
-		this->codigo = _codigo;
+		this->codigoServicio = _codigoServicio;
 	}
-	int getCodigo()const
+	int getCodigoServicio()const
 	{
-		return this->codigo;
+		return this->codigoServicio;
 	}
 
 	void setDescripcion(string _descripcion)
@@ -40,13 +40,13 @@ public:
 		return this->descripcion;
 	}
 
-	void setCosto(float _costo)
+	void setCostoServicio(float _costoServicio)
 	{
-		this->costo = _costo;
+		this->costoServicio = _costoServicio;
 	}
-	float getCosto()const
+	float getCostoServicio()const
 	{
-		return this->costo;
+		return this->costoServicio;
 	}
 
 	void setDisponibilidad(bool _disponibilidad)
@@ -59,12 +59,14 @@ public:
 		return this->disponibilidad;
 	}
 
+
+
 	void getMostrarServicios()const
 	{
 		cout << "..................Datos del servicio.............................." << endl;
-		cout << "Codigo: " << getCodigo() << endl;
+		cout << "Codigo: " << getCodigoServicio() << endl;
 		cout << "Descripcion: " << getDescripcion() << endl;
-		cout << "Costo: $" << getCosto() << endl;
+		cout << "Costo: $" << getCostoServicio() << endl;
 		cout << "Disponibilidad: " << (disponibilidad ? "Disponible" : "No disponible") << endl;
 		cout << "................................................................." << endl;
 	}
