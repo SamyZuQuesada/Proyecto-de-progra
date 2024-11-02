@@ -461,83 +461,85 @@ public:
     }
 
     void guardarEnArchivo()
+{
+    ofstream archivo("Citas.txt");
+    if (archivo.is_open())
     {
-        ofstream archivo("Citas.txt");
-        if (archivo.is_open())
+        archivo << contadorConsecutivo << endl;
+        for (int i = 0; i < listaCitas.size(); i++)
         {
-            for (int i = 0; i < listaCitas.size(); i++)
-            {
-                archivo << listaCitas[i]->getNumeroCita()
-                    << "-" << listaCitas[i]->getCedulaUsuario()
-                    << "-" << listaCitas[i]->getCodigoMedico()
-                    << "-" << listaCitas[i]->getFecha()
-                    << "-" << listaCitas[i]->getCodigoServicio()
-                    << "-" << listaCitas[i]->getCostoTotal()
-                    << endl;
-            }
-            archivo.close();
-            cout << "Datos guardados correctamente en el archivo Citas.txt" << endl;
+            archivo << listaCitas[i]->getNumeroCita()
+                << "-" << listaCitas[i]->getCedulaUsuario()
+                << "-" << listaCitas[i]->getCodigoMedico()
+                << "-" << listaCitas[i]->getFecha()
+                << "-" << listaCitas[i]->getCodigoServicio()
+                << "-" << listaCitas[i]->getCostoTotal()
+                << endl;
         }
-        else
-        {
-            cout << "No se pudo abrir el archivo" << endl;
-        }
+        archivo.close();
+        cout << "Datos guardados correctamente en el archivo Citas.txt" << endl;
     }
-
-    void recuperarArchivos()
+    else
     {
-        listaCitas.clear();
-        ifstream archivo("Citas.txt");
-        if (archivo.is_open())
-        {
-            string linea;
-            int ultimoConsecutivo = 0;
-            while (getline(archivo, linea))
-            {
-                stringstream ss(linea);
-
-                string numeroCita, cedulaUsuario, codigoMedico, fecha, codigoServicio, costoTotal, consecutivo;
-
-                getline(ss, numeroCita, '-');
-                int _numeroCita = stoi(numeroCita);
-
-                getline(ss, cedulaUsuario, '-');
-                int _cedulaUsuario = stoi(cedulaUsuario);
-
-                getline(ss, codigoMedico, '-');
-                int _codigoMedico = stoi(codigoMedico);
-
-                getline(ss, fecha, '-');
-
-                getline(ss, codigoServicio, '-');
-                int _codigoServicio = stoi(codigoServicio);
-
-                getline(ss, costoTotal, '-');
-                float _costoTotal = stof(costoTotal);
-
-                getline(ss, consecutivo, '-');
-                int _consecutivo = stoi(consecutivo);
-
-                if (contadorConsecutivo > ultimoConsecutivo)
-                    ultimoConsecutivo = contadorConsecutivo;
-
-
-                Citas* newCita = new Citas(_numeroCita, _cedulaUsuario, _codigoMedico, fecha, _codigoServicio, _costoTotal);
-                listaCitas.push_back(newCita);
-
-            }
-            archivo.close();
-            cout << "Datos recuperados correctamente" << endl;
-
-            contadorConsecutivo = ultimoConsecutivo + 1;
-        }
-        else
-        {
-            cout << "No se pudo abrir el archivo" << endl;
-            return;
-        }
+        cout << "No se pudo abrir el archivo" << endl;
     }
+}
 
+void recuperarArchivos()
+{
+    listaCitas.clear();
+    ifstream archivo("Citas.txt");
+    if (archivo.is_open())
+    {
+        string linea;
+        int ultimoConsecutivo = 0;
+
+        if (getline(archivo, linea))  
+        {
+            contadorConsecutivo = stoi(linea);  
+            if (contadorConsecutivo > ultimoConsecutivo)
+                ultimoConsecutivo = contadorConsecutivo;
+        }
+
+        while (getline(archivo, linea))
+        {
+            stringstream ss(linea);
+
+            string numeroCita, cedulaUsuario, codigoMedico, fecha, codigoServicio, costoTotal, consecutivo;
+
+            getline(ss, numeroCita, '-');
+            int _numeroCita = stoi(numeroCita);
+
+            getline(ss, cedulaUsuario, '-');
+            int _cedulaUsuario = stoi(cedulaUsuario);
+
+            getline(ss, codigoMedico, '-');
+            int _codigoMedico = stoi(codigoMedico);
+
+            getline(ss, fecha, '-');
+
+            getline(ss, codigoServicio, '-');
+            int _codigoServicio = stoi(codigoServicio);
+
+            getline(ss, costoTotal, '-');
+            float _costoTotal = stof(costoTotal);
+
+
+            Citas* newCita = new Citas(_numeroCita, _cedulaUsuario, _codigoMedico, fecha, _codigoServicio, _costoTotal);
+            listaCitas.push_back(newCita);
+
+        }
+        archivo.close();
+        cout << "Datos recuperados correctamente" << endl;
+
+        contadorConsecutivo = ultimoConsecutivo + 1;
+    }
+    else
+    {
+        cout << "No se pudo abrir el archivo" << endl;
+        return;
+    }
+}
     void menuCitas()
     {
         int opcion;
