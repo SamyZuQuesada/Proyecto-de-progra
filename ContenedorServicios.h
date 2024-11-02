@@ -1,22 +1,28 @@
 #pragma once
+#pragma once
 #include "Librerias.h"
 #include "Servicios.h"
-#include "Citas.h"
+#include "Citas"
 #include "ContenedorCitas.h"
-
-
-
+class ContenedorCitas;
 class ContenedorServicios
 {
 private:
 	vector<Servicios*> listaServicios;
-
+	ContenedorCitas* contenedorCitas;
 public:
+	
 
+	ContenedorServicios(ContenedorCitas* contenedorCitas)
+	{
+		this->contenedorCitas = contenedorCitas;
+	}
+	
 	const vector<Servicios*>& getListaServicios() const
 	{
 		return listaServicios;
 	}
+
 	void setRegistrarServicio()
 	{
 		int codigoServicio = 0;
@@ -45,23 +51,23 @@ public:
 		}
 		cin.ignore();
 		do
-		{ 
-		
-		cout << "Ingrese la descripcion del servicio: ";
-		getline(cin, descripcion);
-		cout << "Ingrese el costo del servicio: ";
-		cin >> costoServicio;
-
-
-		cout << "Disponibilidad del servicio: 1= disponible, 0= no disponible): " << endl;
-		cin >> disponibilidad;
-
-		// Validaciones para verificar que no se ingresen campos vacios.
-		if (codigoServicio <= 0 || descripcion.empty() || costoServicio <= 0)
 		{
-			cout << "No se permiten campos vacios o en negativo" << endl;
-			return;
-		}
+
+			cout << "Ingrese la descripcion del servicio: ";
+			getline(cin, descripcion);
+			cout << "Ingrese el costo del servicio: ";
+			cin >> costoServicio;
+
+
+			cout << "Disponibilidad del servicio: 1= disponible, 0= no disponible): " << endl;
+			cin >> disponibilidad;
+
+			// Validaciones para verificar que no se ingresen campos vacios.
+			if (codigoServicio <= 0 || descripcion.empty() || costoServicio <= 0)
+			{
+				cout << "No se permiten campos vacios o en negativo" << endl;
+				return;
+			}
 		} while (codigoServicio <= 0 || descripcion.empty() || costoServicio <= 0);
 
 		Servicios* newServicio = new Servicios(codigoServicio, descripcion, costoServicio, disponibilidad);
@@ -97,65 +103,66 @@ public:
 		cout << "Ingrese su numero de codigo" << endl;
 		cin >> codigoServicio;
 		cin.ignore();
-		
+
 		if (codigoServicio < 0) {
 			cout << "Codigo no valido, ingrese un numero positivo." << endl;
 			return;
-		}else {
-           for (int i = 0; i < listaServicios.size(); i++)
-		   {
-			if (listaServicios[i]->getCodigoServicio() == codigoServicio)
-			{ //se verifica si el codigo existe
+		}
+		else {
+			for (int i = 0; i < listaServicios.size(); i++)
+			{
+				if (listaServicios[i]->getCodigoServicio() == codigoServicio)
+				{ //se verifica si el codigo existe
 
 
 
-				cin.ignore();
-				cout << "Ingrese la nueva descripcion del servicio: " << endl;
-				getline(cin, Nuevadescripcion);
+					cin.ignore();
+					cout << "Ingrese la nueva descripcion del servicio: " << endl;
+					getline(cin, Nuevadescripcion);
 
-				cout << "Ingrese el nuevo costo del servicio: " << endl;
-				cin >> Nuevocosto;
+					cout << "Ingrese el nuevo costo del servicio: " << endl;
+					cin >> Nuevocosto;
 
-				if (Nuevocosto < 0) {
-					cout << "Costo no valido, ingrese un numero positivo." << endl;
-					return;
-				}
-
-				cout << "Disponibilidad del nuevo servicio: 1= disponible, 0= no disponible): " << endl;
-				cin >> Nuevadisponibilidad;
-		
-                
-				if (codigoServicio < 0 || Nuevadescripcion.empty() || Nuevocosto < 0)
-				{
-					cout << "No se permiten campos vacios" << endl;
-					return;
-				}
-
-						listaServicios[i]->setDescripcion(Nuevadescripcion);
-						listaServicios[i]->setCostoServicio(Nuevocosto);
-						listaServicios[i]->setDisponibilidad(Nuevadisponibilidad);
-						cout << "Servicio modificado con exito" << endl;
-
-						system("cls");
-
-						cout << "............. Lista de servicios registrados................." << endl;
-						for (int i = 0; i < listaServicios.size(); i++)
-						{
-
-							listaServicios[i]->getMostrarServicios();
-						}
-						cout << "............................................................" << endl;
+					if (Nuevocosto < 0) {
+						cout << "Costo no valido, ingrese un numero positivo." << endl;
 						return;
 					}
+
+					cout << "Disponibilidad del nuevo servicio: 1= disponible, 0= no disponible): " << endl;
+					cin >> Nuevadisponibilidad;
+
+
+					if (codigoServicio < 0 || Nuevadescripcion.empty() || Nuevocosto < 0)
+					{
+						cout << "No se permiten campos vacios" << endl;
+						return;
+					}
+
+					listaServicios[i]->setDescripcion(Nuevadescripcion);
+					listaServicios[i]->setCostoServicio(Nuevocosto);
+					listaServicios[i]->setDisponibilidad(Nuevadisponibilidad);
+					cout << "Servicio modificado con exito" << endl;
+
+					system("cls");
+
+					cout << "............. Lista de servicios registrados................." << endl;
+					for (int i = 0; i < listaServicios.size(); i++)
+					{
+
+						listaServicios[i]->getMostrarServicios();
+					}
+					cout << "............................................................" << endl;
+					return;
 				}
-				cout << "No existe un servicio registrado con ese codigo" << endl;
-
-
 			}
+			cout << "No existe un servicio registrado con ese codigo" << endl;
+
+
 		}
+	}
 	void consultarServicios()
 	{
-		
+
 		int serviciosTotal = 0;
 		int disponibilidad = 0;
 
@@ -166,18 +173,19 @@ public:
 		}
 		else
 		{
-			for (int i = 0; i < listaServicios.size(); i++)
+			for (int i = 0; i < contenedorCitas->getListaCitas().size(); i++)
 			{
 				//llamara contenedor cita para mostrar las citas
+				contenedorCitas->getConsultarCitas();
+				
+				cout << "........................................................." << endl;
 
-			cout << "........................................................." << endl;
-
-			if (listaServicios[i]->getDisponibilidad())
-			{
-				disponibilidad++;
+				if (listaServicios[i]->getDisponibilidad())
+				{
+					disponibilidad++;
+				}
 			}
 		}
-	}
 		cout << "..............................................." << endl;
 		cout << "Total de servicios registrados: " << listaServicios.size() << endl;
 		cout << "Servicios disponibles: " << disponibilidad << endl;
@@ -247,17 +255,17 @@ public:
 			cout << "No se pudo abrir el archivo" << endl;
 		}
 	}
-	
-	
-	
+
+
+
 	void getConsultarCitaEspecifica()
 	{
 		int codigoServicio;
 		bool encontrado = false;
 
 		cout << "Ingrese el codigo del servicio que desea consultar: ";
-	    cin >> codigoServicio;
-		
+		cin >> codigoServicio;
+
 		system("cls");
 
 		cout << ".........Cita medica registrada con el numero de servicio " << codigoServicio << "........." << endl;
@@ -267,8 +275,8 @@ public:
 			if (listaServicios[i]->getCodigoServicio() == codigoServicio)
 			{
 				cout << "Servicio encontrado!" << endl;
-			
-               encontrado = true;
+				listaServicios[i]->getMostrarServicios();
+				encontrado = true;
 				break;
 			}
 		}
@@ -277,11 +285,11 @@ public:
 			cout << "No se encontro el servicio" << endl;
 		}
 		cout << "..............................................." << endl;
-		
+
 	}
-		
-		
-		
+
+
+
 
 	void menuServicios()
 	{
@@ -354,7 +362,7 @@ public:
 				break;
 			}
 			}
-		
+
 		} while (opcion != 7);
 
 
